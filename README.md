@@ -43,6 +43,8 @@ Below is a table of all of the constants and methods available in the `popup-pro
 
 There are currently two methods, and two constants available. They will be shown below.
 
+<hr />
+
 ### Constant: `VERSION`
 
 This constant simply shows the current version of the package.
@@ -54,6 +56,8 @@ To log it (with the `popup` variable) to the console, simple run the following c
 ```js
 console.log(popup.VERSION);
 ```
+
+<hr />
 
 ### Constant: `AVAILABLE_VALUES`
 
