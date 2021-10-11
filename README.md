@@ -55,7 +55,7 @@ To log it (with the `popup` variable) to the console, simple run the following c
 console.log(popup.VERSION);
 ```
 
-### Constant: AVAILABLE_VALUES
+### Constant: `AVAILABLE_VALUES`
 
 `AVAILABLE_VALUES` shows the available values for the methods, since PowerShell has limited values for specific parameters.
 If you get stuck on what values are available, you can simply `console.log` it, and see an object with each method.
