@@ -178,3 +178,92 @@ The last parameter is optional, and it is the default value for the button. So, 
 -   None
 
 And that's it! This method can be very helpful for displaying information, warning, and error messages to your users, instead of just logging it to the console!
+
+### Method: `showPrompt`
+
+```
+showPrompt(title, message[, defaultValue])
+```
+
+The method creates a customizable prompt popup. This includes the title, the message, and the default value for the text field.
+
+_Note: When you run this method, you will notice a PowerShell file appear in your current working directory. This is essential for the prompt to display. Also, when the user enters their text, a text file will appear with the text entered. This is for the PowerShell file to communicate with NodeJS._
+
+This method returns a `Promise`, which contains the string that the user entered. _Note: If the user presses the Cancel button, or presses the **X** (close) button, then the returned value will be a zero-length string._
+
+Below is an example of how to use the method.
+
+```js
+popup
+	.showPrompt("New File", "Type the new file name below.", "text.txt")
+	.then((fileName) => {
+		console.log(fileName);
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+```
+
+When you run the code, like `showMessageBox`, a PowerShell file will appear in your current working directory, and then, a prompt message similar to this one (depending on your OS, the prompt may look different) will show up.
+
+![Show-Prompt-Popup-Two](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Show-Prompt-Popup-Two.png)
+
+Once the user clicks _Enter_, the _OK_ button, the _Cancel_ button, or the _Close_ button, a text file will appear in your current working directory, and then, in the terminal/command prompt, the text that the user entered will show up. In this example, we will pretend that the user entered _text.txt_.
+
+```
+text.txt
+```
+
+Now, let's go over what happens.
+
+The first parameter, like `showMessageBox`, is the title. This is a string that should appear at the top on the popup window, and also on the taskbar (Windows) when they hover over the window.
+
+After that, the second parameter is the message. This can be a sentence or two, telling the user what the prompt is for.
+
+Finally, the last parameter is optional, and that is the default value. This is the value that should appear by default in the text field. This will be highlighted (like in the picture), so that if the user wants to go with it, they can just press _Enter_.
+
+You may notice that unlike `showMessageBox`, not one of `showPrompt`'s parameters has some set values.
+
+And that's how easy it is to display a prompt to your user to get some data from them!
+
+## More Coming Soon!
+
+Even though we are thinking hard for ideas, we would _love_ it if you would make a [new Issue](https://github.com/arnavthorat78/Popup-Prompt/issues) for a feature request!
+
+## Bugs?
+
+We know that no one likes bugs in their code, so if you find a bug, please make a [new Issue](https://github.com/arnavthorat78/Popup-Prompt/issues), and describe the bug.
+
+## On Another Platform (other than Windows)?
+
+If you are on another OS (other than Windows), it would be highly appreciated if you could send screenshots of how your popups/prompts look like. Also, if there are any bugs on other operating systems, then maybe you can help as a contributer!
+
+## Maintainers
+
+[arnavthorat78](https://github.com/arnavthorat78) - **Master Arnav Thorat** (Author)
+
+## License (MIT)
+
+```
+MIT License
+
+Copyright (c) 2021 arnavthorat78
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
