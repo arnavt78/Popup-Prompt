@@ -90,3 +90,44 @@ Which then outputs...
 ```
 
 Just a quick side note on this output: when the value of a parameter (e.g. `showPrompt.title`) is an empty array (`[]`), then it means that there are no default parameters; they can be anything!
+
+### Method: `showMessageBox`
+
+```
+showMessageBox(title, message[, type][, picture][, defaultOption])
+```
+
+This method shows a customizable message box. It can have a title, message, button/buttons and an image.
+
+_Note: When you run this method, you will notice a PowerShell file appear in your current working directory. This is essential for the popup to display. Also, when a user clicks on a button, a text file will appear with the button clicked. This is for the PowerShell file to communicate with NodeJS._
+
+This method returns a `Promise`, which contains the button on which the user clicked on. The value can be either of the below.
+
+-   OK
+-   Cancel
+-   Yes
+-   No
+-   None
+
+Let's see a quick example of how to use it, and then, we will look at the functionality more deeply.
+
+```js
+popup
+	.showMessageBox(
+		"Confirm Deleting File",
+		"Are you sure you want to delete the file? This action is irreversible.",
+		"YesNoCancel",
+		"Warning",
+		"No"
+	)
+	.then((btn) => {
+		console.log(btn);
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+```
+
+So, when you run this code, you should see a PowerShell file appear in your working directory. Soon after that, a message should appear, similar to this one.
+
+_Note: Depending on your OS platform and version, your popup may look slightly different. However, the functionality should be the same._
