@@ -130,4 +130,51 @@ popup
 
 So, when you run this code, you should see a PowerShell file appear in your working directory. Soon after that, a message should appear, similar to this one.
 
-_Note: Depending on your OS platform and version, your popup may look slightly different. However, the functionality should be the same._
+_Note: Depending on your OS platform and version, your popup may look slightly different. However, the functionality should be the same. Also, the window icon is the PowerShell logo._
+
+![Show-Message-Box-Popup-One](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Show-Message-Box-Popup-One.png)
+
+Then, logged to the console will be whatever the user chose (in this case, the choosen one is _No_).
+
+```
+No
+```
+
+Now, let's break it down.
+
+The first parameter of `showMessageBox` is the title. The title is, as it may suggest, a string of the name of the popup/window. This appears when the user sees the top of the popup, and also when they see the taskbar (Windows) and see the name.
+
+The second parameter is the description, where you can write a sentence or two, telling the user what the popup is for.
+
+After that, the optional parameters come in. The third parameter are the buttons that display on the bottom. They, however, can only be of the following values. Passing anything other than this will cause an error.
+
+-   OK
+-   OKCancel
+-   YesNo\*
+-   YesNoCancel
+
+_\* When this value is set, the **X** (close) button is disabled._
+
+The fourth optional parameter is the icon to display. This is a set list of icons, and must only be of the following values.
+
+-   Asterisk
+-   Error
+-   Exclamation
+-   Hand
+-   Information
+-   None\*
+-   Question
+-   Stop
+-   Warning
+
+_\* When `None` is set, there is no icon._
+
+The last parameter is optional, and it is the default value for the button. So, if the user clicks _Enter_ when the popup comes, and the default value is set, then it will automatically go with it. It must be one of the following.
+
+-   OK
+-   Cancel
+-   Yes
+-   No
+-   None
+
+And that's it! This method can be very helpful for displaying information, warning, and error messages to your users, instead of just logging it to the console!
