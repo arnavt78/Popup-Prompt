@@ -5,6 +5,8 @@
 ![NPM](https://img.shields.io/npm/l/popup-prompt?color=green&label=license&logo=licenseName&logoColor=grey)
 ![npm type definitions](https://img.shields.io/npm/types/popup-prompt?color=blue&label=types&logo=typeDefinitions&logoColor=grey)
 
+<img src="https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Prompt%20Logo.png" alt="Popup-Prompt Logo" width="200" height="200" />
+
 > Show popup and prompt windows to your users.
 
 ## PowerShell Needed
@@ -37,7 +39,12 @@ And that's it!
 
 Below is a table of all of the constants and methods available in the `popup-prompt` package.
 
-**Table coming soon!**
+| Name & Parameters                                                    | Type     | Description                                           |
+| -------------------------------------------------------------------- | -------- | ----------------------------------------------------- |
+| `VERSION`                                                            | Constant | Show the current version of the package.              |
+| `AVAILABLE_VALUES`                                                   | Constant | Show the values that can be passed into the methods.  |
+| `showMessageBox(title, message[, type][, picture][, defaultOption])` | Method   | Show a customizable message popup window.             |
+| `showPrompt(title, message[, defaultValue])`                         | Method   | Show a customizable prompt popup window.              |
 
 ## Usage
 
