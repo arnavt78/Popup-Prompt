@@ -39,12 +39,12 @@ And that's it!
 
 Below is a table of all of the constants and methods available in the `popup-prompt` package.
 
-| Name & Parameters                                                    | Type     | Description                                           |
-| -------------------------------------------------------------------- | -------- | ----------------------------------------------------- |
-| `VERSION`                                                            | Constant | Show the current version of the package.              |
-| `AVAILABLE_VALUES`                                                   | Constant | Show the values that can be passed into the methods.  |
-| `showMessageBox(title, message[, type][, picture][, defaultOption])` | Method   | Show a customizable message popup window.             |
-| `showPrompt(title, message[, defaultValue])`                         | Method   | Show a customizable prompt popup window.              |
+| Name & Parameters                                                    | Type     | Description                                          |
+| -------------------------------------------------------------------- | -------- | ---------------------------------------------------- |
+| `VERSION`                                                            | Constant | Show the current version of the package.             |
+| `AVAILABLE_VALUES`                                                   | Constant | Show the values that can be passed into the methods. |
+| `showMessageBox(title, message[, type][, picture][, defaultOption])` | Method   | Show a customizable message popup window.            |
+| `showPrompt(title, message[, defaultValue])`                         | Method   | Show a customizable prompt popup window.             |
 
 ## Usage
 

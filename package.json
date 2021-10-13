@@ -1,0 +1,22 @@
+{
+	"name": "popup-prompt",
+	"version": "1.0.0",
+	"description": "Show popup and prompt windows to your users.",
+	"license": "MIT",
+	"repository": "https://github.com/arnavthorat78/Popup-Prompt",
+	"author": "Arnav Thorat",
+	"main": "index.js",
+	"types": "index.d.ts",
+	"bugs": {
+		"url": "https://github.com/arnavthorat78/Popup-Prompt/issues"
+	},
+	"keywords": [
+		"arnavcoder",
+		"cli",
+		"popup",
+		"message",
+		"prompt",
+		"npm",
+		"powershell"
+	]
+}
