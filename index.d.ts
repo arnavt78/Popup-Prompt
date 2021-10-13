@@ -26,13 +26,15 @@
 
 /**
  * The current version of `popup-prompt`.
+ *
+ * _Note: This can be out-of-date at times. If it is, please make a [new Issue](https://github.com/arnavthorat78/Popup-Prompt/issues)!_
  */
 export const VERSION: string;
 
 /**
  * Get all of the default available values for parameters in methods (e.g. `showMessageBox`).
  *
- * If a key in a method is an empty array, then that means that it can be anything.
+ * If a key in a method is an empty array, then that means that the value can be anything.
  */
 export const AVAILABLE_VALUES: {
 	showMessageBox: {
@@ -52,6 +54,20 @@ export const AVAILABLE_VALUES: {
 ////////////////
 // Functions //
 //////////////
+
+// showMessageBox types //
+type typeType = "OK" | "OKCancel" | "YesNo" | "YesNoCancel";
+type pictureType =
+	| "Asterisk"
+	| "Error"
+	| "Exclamation"
+	| "Hand"
+	| "Information"
+	| "None"
+	| "Question"
+	| "Stop"
+	| "Warning";
+type buttonType = "Cancel" | "No" | "None" | "OK" | "Yes";
 
 /**
  * This method shows a customizable message box. It can have a title, message, button/buttons and an image.
@@ -90,14 +106,21 @@ export const AVAILABLE_VALUES: {
  * ```
  * No
  * ```
+ *
+ * @param title The title is a string of the name of the popup/window. This appears when the user sees the top of the popup, and also when they see the taskbar (Windows) and see the name.
+ * @param message The description, where you can write a sentence or two, telling the user what the popup is for.
+ * @param type The buttons that display on the bottom. They, however, can only be a few values. Passing anything other than this will cause an error.
+ * @param picture The icon to display. This is a set list of icons, and must only be of a few values.
+ * @param defaultOption The default value for the button. So, if the user clicks _Enter_ when the popup comes, and the default value is set, then it will automatically go with it. It must be one of the button values.
+ * @returns This method returns a `Promise`, which contains the button on which the user clicked on.
  */
 export const showMessageBox: (
 	title: string,
 	message: string,
-	type?: string,
-	picture?: string,
-	defaultOption?: string
-) => Promise<string>;
+	type?: typeType,
+	picture?: pictureType,
+	defaultOption?: buttonType
+) => Promise<buttonType>;
 
 /**
  * The method creates a customizable prompt popup. This includes the title, the message, and the default value for the text field.
@@ -128,5 +151,11 @@ export const showMessageBox: (
  * ```
  * text.txt
  * ```
+ * 
+ * Then, you can do whatever you want with the value!
+ * 
+ * @param title The title. This is a string that should appear at the top on the popup window, and also on the taskbar (Windows) when they hover over the window.
+ * @param message The message. This can be a sentence or two, telling the user what the prompt is for.
+ * @param defaultValue The default value. This is the value that should appear by default in the text field. This will be highlighted (like in the picture), so that if the user wants to go with it, they can just press _Enter_.
  */
 export const showPrompt: (title: string, message: string, defaultValue?: string) => Promise<string>;
