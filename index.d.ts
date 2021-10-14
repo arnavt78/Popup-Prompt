@@ -157,5 +157,6 @@ export const showMessageBox: (
  * @param title The title. This is a string that should appear at the top on the popup window, and also on the taskbar (Windows) when they hover over the window.
  * @param message The message. This can be a sentence or two, telling the user what the prompt is for.
  * @param defaultValue The default value. This is the value that should appear by default in the text field. This will be highlighted (like in the picture), so that if the user wants to go with it, they can just press _Enter_.
+ * @returns A `Promise`, which contains the string that the user entered. _Note: If the user presses the Cancel button, or presses the **X** (close) button, then the returned value will be a zero-length string._
  */
 export const showPrompt: (title: string, message: string, defaultValue?: string) => Promise<string>;
