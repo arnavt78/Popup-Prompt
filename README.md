@@ -307,6 +307,30 @@ The fourth parameter is the size. This is an array of two numbers. These numbers
 
 The final parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 
+#### `componentButton`
+
+```
+componentButton(name, text, location, size, result[, listen][, windowName])
+```
+
+Create a component button in the popup.
+
+_Note: This method does not open the popup/window. To do this, run `openPopup`._
+
+This parameter requires a name as the first parameter, which is the variable for the button. **Beware that if you pass a value that exists, there could be errors.**
+
+The next parameter is the text to display on the button.
+
+The third parameter is the location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
+
+The fourth parameter is the size. This is an array of two numbers. These numbers determine the size of the text. For example, if the numbers are `[75, 20]`, then `300` is the width, and `20` is the height.
+
+The fifth parameter is the result, which is the result of the button (if `listen` is true). This is what is returned if `listen` is true.
+
+The sixth optional parameter is a listener. This will wait for a click event, and when it occurs, it will return the `result` value.
+
+The last parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+
 ## More Coming Soon!
 
 Even though we are thinking hard for ideas, we would _love_ it if you would make a [new Issue](https://github.com/arnavthorat78/Popup-Prompt/issues) for a feature request!
