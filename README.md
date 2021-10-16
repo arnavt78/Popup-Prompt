@@ -250,10 +250,90 @@ _Note: When you add components and run the popup, you will notice a PowerShell f
 It is so easy to create a popup!
 
 ```js
-const myPopup = new popup.Popup();
+const info = new popup.Popup();
 ```
 
-Now, let's see the methods in `Popup`.
+_Note: In this example, we are creating a server reboot information dialog, so that is why the name is `info`._
+
+Then, you can create the window for all the data. This will include the icon as well.
+
+```js
+info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico");
+```
+
+_Note: The icon is a server-like image._
+
+After that, we can add some components. In this example, we will only add a label and a button.
+
+```js
+info.componentLabel("information", "The server rebooted at 2:14 PM on 16/10/2021.", [10, 20], [280, 20]);
+info.componentButton("button", "OK", [85, 75], [75, 25], "OK", true);
+```
+
+Then, finally, we can render the window, and display the popup.
+
+```js
+info.renderWindow(true);
+info.openPopup((data, err) => {
+	if (err) {
+		console.log(err);
+	} else {
+		console.log(data);
+	}
+});
+```
+
+The total code is below.
+
+```js
+const info = new popup.Popup();
+
+info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico");
+
+info.componentLabel("information", "The server rebooted at 2:14 PM on 16/10/2021.", [10, 20], [280, 20]);
+info.componentButton("button", "OK", [85, 75], [75, 25], "OK", true);
+
+info.renderWindow(true);
+info.openPopup((data, err) => {
+	if (err) {
+		console.log(err);
+	} else {
+		console.log(data);
+	}
+});
+```
+
+This will open the popup below (depending on your OS).
+
+![Popup-Popup-Three](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Popup-Three.png)
+
+When the user clicks on the button, then, output to the terminal/command prompt is the button the user clicked on (in this case, _OK_).
+
+```
+OK
+```
+
+There is an even easier way to type the code, which gives us the same result. We can do this by _method chaining_.
+
+```js
+const info = new Popup(); // We are not chaining from here, but you can if you want.
+
+info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico")
+	.componentLabel("information", "The server rebooted at 2:14 PM on 16/10/2021.", [10, 20], [280, 20])
+	.componentButton("button", "OK", [85, 75], [75, 25], "OK", true)
+	.renderWindow(true)
+	.openPopup((data, err) => {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log(data);
+		}
+	});
+```
+
+This will give us the same result.
+
+Now, let's see the methods in `Popup` in more detail.
 
 #### `createWindow`
 
@@ -323,13 +403,78 @@ The next parameter is the text to display on the button.
 
 The third parameter is the location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
 
-The fourth parameter is the size. This is an array of two numbers. These numbers determine the size of the text. For example, if the numbers are `[75, 20]`, then `300` is the width, and `20` is the height.
+The fourth parameter is the size. This is an array of two numbers. These numbers determine the size of the button. For example, if the numbers are `[75, 20]`, then `300` is the width, and `20` is the height.
 
 The fifth parameter is the result, which is the result of the button (if `listen` is true). This is what is returned if `listen` is true.
 
 The sixth optional parameter is a listener. This will wait for a click event, and when it occurs, it will return the `result` value.
 
 The last parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+
+#### `componentTextBox`
+
+```
+componentTextBox(name, location, size[, listen][, windowName])
+```
+
+Create a text box field in which the user can enter text in.
+
+_Note: This method does not open the popup/window. To do this, run `openPopup`._
+
+For the first parameter, like any other component, the text box requires a name, which is its variable name. **Beware that if you pass a value that exists, there could be errors.**
+
+The second parameter is the location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
+
+The third parameter is the size. This is an array of two numbers. These numbers determine the size of the text box. For example, if the numbers are `[250, 20]`, then `250` is the width, and `20` is the height.
+
+After that come the optional parameters. The fourth one is a listener. This will wait for a _KeyUp_ event, and when it occurs, it will return the text. _Note: This method does not return the text after each KeyUp event. Also, beware that there could be **null** readings at times._
+
+The last parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+
+#### `renderWindow`
+
+```
+renderWindow([topmost][, name])
+```
+
+This method creates the code for the window to be properly rendered.
+
+_Note: This method does not open the popup/window. To do this, run `openPopup`._
+
+All of the parameters of this method are optional. Therefore, it is okay to not pass in anything.
+
+The first parameter is if the window should be the topmost. This means that even if the window is out of focus, the popup will still stay on the top (unless the user clicks the minimize button).
+
+The second and last parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+
+#### `openPopup`
+
+```
+openPopup(callback)
+```
+
+This method opens the popup on the users computer.
+
+There is only one required parameter, and that is the callback. It is usually called as below.
+
+```js
+popup.openPopup((data, err) => {
+	if (err) {
+		console.log(err);
+	} else {
+		// Do whatever you want with the data returned.
+		console.log(data);
+	}
+});
+```
+
+Now, let's look at it in detail.
+
+The first parameter that the callback passes is the data. This is the data from a button or text box (if `listen` is set to true). If there are no listeners, then the data will be a zero-length string. Otherwise, it will be the button clicked, or the text in the text box entered, depending on what has been listened.
+
+The second parameter that the callback passes is the error. This is a string telling the user that an error occured. _Note: This method does not exactly tell what the error is. This may be introduced in version 1.1.0._
+
+Once both of the parameters are there, then, in the callback body, you should add an `if/else` statement, and check if there is an error. The reason is because if there is an error, it will have a value, otherwise, it will have a value of `null`. The same applies for the `data`. In the `else` clause, you can do whatever you wish with the data.
 
 ## More Coming Soon!
 
