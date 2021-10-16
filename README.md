@@ -46,10 +46,11 @@ Below is a table of all of the constants and methods available in the `popup-pro
 | `AVAILABLE_VALUES`                                                   | Constant | Show the values that can be passed into the methods. |
 | `showMessageBox(title, message[, type][, picture][, defaultOption])` | Method   | Show a customizable message popup window.            |
 | `showPrompt(title, message[, defaultValue])`                         | Method   | Show a customizable prompt popup window.             |
+| `Prompt()`                                                           | Class    | Make a fully customizable popup window.              |
 
 ## Usage
 
-There are currently two methods, and two constants available. They will be shown below.
+There are currently two methods, two constants, and one class available. They will be shown below.
 
 ### Constant: `VERSION`
 
@@ -96,6 +97,8 @@ Which then outputs...
     showPrompt: { title: [], message: [], defaultValue: [] }
 }
 ```
+
+_Note: This object does not show any methods of classes (e.g. `Popup`)._
 
 Just a quick side note on this output: when the value of a parameter (e.g. `showPrompt.title`) is an empty array (`[]`), then it means that there are no default parameters; they can be anything!
 
@@ -233,6 +236,76 @@ Finally, the last parameter is optional, and that is the default value. This is 
 You may notice that unlike `showMessageBox`, not one of `showPrompt`'s parameters has some set values.
 
 And that's how easy it is to display a prompt to your user to get some data from them!
+
+### Class: `Popup`
+
+```
+Popup()
+```
+
+This class creates a new `Popup` instance, which is a fully customizable popup.
+
+_Note: When you add components and run the popup, you will notice a PowerShell file appear in your current working directory. This is essential for the popup to display. Also, when the user enters text/clicks a button, then a text file may appear. This is essential for Powershell to communicate with NodeJS._
+
+It is so easy to create a popup!
+
+```js
+const myPopup = new popup.Popup();
+```
+
+Now, let's see the methods in `Popup`.
+
+#### `createWindow`
+
+```
+createWindow(title, size[, iconPath][, startPos][, name])
+```
+
+This method creates a window, which is where all of the popup components go.
+
+_Note: This method does not open the popup/window. To do this, run `openPopup`._
+
+This method needs a title, which is the main title of the popup.
+
+The next parameter is the size, which is an array of two numbers. These numbers determine the size of the window. So, `[300, 200]` means that the width is `300`, and the height is `200`.
+
+After that come the optional parameters. The next parameter specifies the icon path for the icon on the popup window. This must be an `.ico` picture extension. If the icon is empty, then the default is a picture will red, blue, and yellow blocks.
+
+_Note: The path must be from the drive. Otherwise, the icon will not display. This bug will soon be fixed (e.g. `C:/Users/Someone/Popup-Prompt/favicon.ico`, not `./favicon.ico`)._
+
+The tipical sizes for an icon are _16 × 16_, _32 × 32_, and _48 × 48_ pixels. For great icons, see [this website!](https://icon-icons.com/).
+
+After that is the start position. This is the position of the window. This defaults to `CenterScreen` and can be of the following values.
+
+-   CenterParent
+-   CenterScreen
+-   Manual\*
+-   WindowsDefaultBounds
+-   WindowsDefaultLocation
+
+_\* When `Manual` is set, there can be some issues._
+
+Finally, the last parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+
+#### `componentLabel`
+
+```
+componentLabel(name, text, location, size[, windowName])
+```
+
+This method creates a component label in the popup.
+
+_Note: This method does not open the popup/window. To do this, run `openPopup`._
+
+First, this method requires a name, which is like a variable for the label. **If you pass in a value that already exists, there can be errors.**
+
+The next parameter is the text, which is basically the text to display on the label.
+
+The third parameter is the location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
+
+The fourth parameter is the size. This is an array of two numbers. These numbers determine the size of the text. For example, if the numbers are `[300, 20]`, then `300` is the width, and `20` is the height.
+
+The final parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 
 ## More Coming Soon!
 
