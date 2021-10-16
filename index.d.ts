@@ -160,3 +160,44 @@ export const showMessageBox: (
  * @returns A `Promise`, which contains the string that the user entered. _Note: If the user presses the Cancel button, or presses the **X** (close) button, then the returned value will be a zero-length string._
  */
 export const showPrompt: (title: string, message: string, defaultValue?: string) => Promise<string>;
+
+//////////////
+// Classes //
+////////////
+
+export class Popup {
+	#code: {
+		addTypes: string;
+		name: string;
+		components: string;
+		render: string;
+	};
+
+	/**
+	 * Create a new `Popup` instance.
+	 */
+	constructor() {
+		this.#code;
+	}
+
+	/**
+	 * Concat all of the code in `this.#code`.
+	 *
+	 * @returns The concatted code.
+	 */
+	#concatCode(): string;
+	/**
+	 * Run a PowerShell file.
+	 *
+	 * @param filename The name of the PowerShell file to run.
+	 * @param textFile The name of the text file to get the data from.
+	 * @param script The script to run.
+	 * @param callback The callback to invoke when the script ends.
+	 */
+	#runPowerShell(
+		filename: string,
+		textFile: string,
+		script: string,
+		callback: (data: string, err: string) => void
+	): void;
+}

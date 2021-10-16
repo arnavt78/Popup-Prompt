@@ -245,6 +245,8 @@ Popup()
 
 This class creates a new `Popup` instance, which is a fully customizable popup.
 
+**Important Note: `Popup` is still in _BETA_. If there is a bug (or you would like a new feature), please make a [new Issue](https://github.com/arnavthorat78/Popup-Prompt/issues)!**
+
 _Note: When you add components and run the popup, you will notice a PowerShell file appear in your current working directory. This is essential for the popup to display. Also, when the user enters text/clicks a button, then a text file may appear. This is essential for Powershell to communicate with NodeJS._
 
 It is so easy to create a popup!
@@ -266,7 +268,12 @@ _Note: The icon is a server-like image._
 After that, we can add some components. In this example, we will only add a label and a button.
 
 ```js
-info.componentLabel("information", "The server rebooted at 2:14 PM on 16/10/2021.", [10, 20], [280, 20]);
+info.componentLabel(
+	"information",
+	"The server rebooted at 2:14 PM on 16/10/2021.",
+	[10, 20],
+	[280, 20]
+);
 info.componentButton("button", "OK", [85, 75], [75, 25], "OK", true);
 ```
 
@@ -290,7 +297,12 @@ const info = new popup.Popup();
 
 info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico");
 
-info.componentLabel("information", "The server rebooted at 2:14 PM on 16/10/2021.", [10, 20], [280, 20]);
+info.componentLabel(
+	"information",
+	"The server rebooted at 2:14 PM on 16/10/2021.",
+	[10, 20],
+	[280, 20]
+);
 info.componentButton("button", "OK", [85, 75], [75, 25], "OK", true);
 
 info.renderWindow(true);
@@ -316,10 +328,15 @@ OK
 There is an even easier way to type the code, which gives us the same result. We can do this by _method chaining_.
 
 ```js
-const info = new Popup(); // We are not chaining from here, but you can if you want.
+const info = new popup.Popup(); // We are not chaining from here, but you can if you want.
 
 info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico")
-	.componentLabel("information", "The server rebooted at 2:14 PM on 16/10/2021.", [10, 20], [280, 20])
+	.componentLabel(
+		"information",
+		"The server rebooted at 2:14 PM on 16/10/2021.",
+		[10, 20],
+		[280, 20]
+	)
 	.componentButton("button", "OK", [85, 75], [75, 25], "OK", true)
 	.renderWindow(true)
 	.openPopup((data, err) => {
@@ -351,9 +368,9 @@ The next parameter is the size, which is an array of two numbers. These numbers 
 
 After that come the optional parameters. The next parameter specifies the icon path for the icon on the popup window. This must be an `.ico` picture extension. If the icon is empty, then the default is a picture will red, blue, and yellow blocks.
 
-_Note: The path must be from the drive. Otherwise, the icon will not display. This bug will soon be fixed (e.g. `C:/Users/Someone/Popup-Prompt/favicon.ico`, not `./favicon.ico`)._
+_Note: The path must be from the drive. Otherwise, the icon will not display (e.g. `C:/Users/Someone/Popup-Prompt/favicon.ico`, not `./favicon.ico`). This bug will soon be fixed._
 
-The tipical sizes for an icon are _16 × 16_, _32 × 32_, and _48 × 48_ pixels. For great icons, see [this website!](https://icon-icons.com/).
+The tipical sizes for an icon are _16 × 16_, _32 × 32_, and _48 × 48_ pixels. For great icons, see [this website](https://icon-icons.com/)!
 
 After that is the start position. This is the position of the window. This defaults to `CenterScreen` and can be of the following values.
 
