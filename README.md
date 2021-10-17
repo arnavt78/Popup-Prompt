@@ -10,6 +10,30 @@
 
 > Show popup and prompt windows to your users.
 
+## Table of Contents
+
+-   [Table of Contents](#table-of-contents)
+-   [PowerShell Needed](#powershell-needed)
+-   [Installation](#installation)
+-   [Functionality](#functionality)
+-   [Usage](#usage)
+    -   [Constant: `VERSION`](#constant-version)
+    -   [Constant: `AVAILABLE_VALUES`](#constant-available_values)
+    -   [Method: `showMessageBox`](#method-showmessagebox)
+    -   [Method: `showPrompt`](#method-showprompt)
+    -   [Class: `Popup`](#class-popup)
+        -   [`createWindow`](#createwindow)
+        -   [`componentLabel`](#componentlabel)
+        -   [`componentButton`](#componentbutton)
+        -   [`componentTextBox`](#componenttextbox)
+        -   [`renderWindow`](#renderwindow)
+        -   [`openPopup`](#openpopup)
+-   [More Coming Soon!](#more-coming-soon)
+-   [Bugs?](#bugs)
+-   [On Another Platform (other than Windows)?](#on-another-platform-other-than-windows)
+-   [Maintainers](#maintainers)
+-   [License (MIT)](#license-mit)
+
 ## PowerShell Needed
 
 Please make sure that you have PowerShell 5.1 installed on your device, so that the popups and prompts show up without any disruption.
