@@ -10,6 +10,8 @@
 
 > Show popup and prompt windows to your users.
 
+[![NPM](https://nodei.co/npm/popup-prompt.png)](https://nodei.co/npm/popup-prompt/)
+
 ## Table of Contents
 
 -   [Table of Contents](#table-of-contents)

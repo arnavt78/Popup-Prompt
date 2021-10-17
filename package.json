@@ -1,6 +1,6 @@
 {
 	"name": "popup-prompt",
-	"version": "1.0.0",
+	"version": "1.0.5",
 	"description": "Show popup and prompt windows to your users.",
 	"license": "MIT",
 	"repository": "https://github.com/arnavthorat78/Popup-Prompt",
@@ -17,6 +17,7 @@
 		"message",
 		"prompt",
 		"npm",
-		"powershell"
+		"powershell",
+		"custom"
 	]
 }

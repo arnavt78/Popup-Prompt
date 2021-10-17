@@ -10,6 +10,7 @@ This version introduced better type definitions, and also a new class!
 
 -   Better type definitions were introduced ([#2](https://github.com/arnavthorat78/Popup-Prompt/issues/2)).
 -   Added a new class (`Popup`). This creates a customizable popup! _Note: This class is in BETA._
+-   Added a Table of Contents ([#3](https://github.com/arnavthorat78/Popup-Prompt/issues/4)).
 
 ### `v1.0.0`
 
