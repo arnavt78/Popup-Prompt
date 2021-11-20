@@ -32,6 +32,8 @@
         -   [`renderWindow`](#renderwindow)
         -   [`openPopup`](#openpopup)
 -   [Real Examples](#real-examples)
+    -   [File Setup Wizard](#file-setup-wizard)
+    -   [Letter Counter](#letter-counter)
 -   [More Coming Soon!](#more-coming-soon)
 -   [Bugs?](#bugs)
 -   [On Another Platform (other than Windows)?](#on-another-platform-other-than-windows)
@@ -40,7 +42,7 @@
 
 ## PowerShell Needed
 
-Please make sure that you have PowerShell 5.1 installed on your device, so that the popups and prompts show up without any disruption.
+Please make sure that you have PowerShell 5.1 (or above) installed on your device, so that the popups and prompts show up without any disruption.
 
 On Windows devices, it should come pre-installed. However, on MacOS and Linux, you may need to download it at [this website](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-5.1).
 
