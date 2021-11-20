@@ -28,8 +28,10 @@
         -   [`componentLabel`](#componentlabel)
         -   [`componentButton`](#componentbutton)
         -   [`componentTextBox`](#componenttextbox)
+        -   [`componentImage`](#componentimage)
         -   [`renderWindow`](#renderwindow)
         -   [`openPopup`](#openpopup)
+-   [Real Examples](#real-examples)
 -   [More Coming Soon!](#more-coming-soon)
 -   [Bugs?](#bugs)
 -   [On Another Platform (other than Windows)?](#on-another-platform-other-than-windows)
@@ -286,7 +288,7 @@ _Note: In this example, we are creating a server reboot information dialog, so t
 Then, you can create the window for all the data. This will include the icon as well.
 
 ```js
-info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico");
+info.createWindow("Server Reboot", [275, 175], "./favicon.ico");
 ```
 
 _Note: The icon is a server-like image._
@@ -321,7 +323,7 @@ The total code is below.
 ```js
 const info = new popup.Popup();
 
-info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico");
+info.createWindow("Server Reboot", [275, 175], "./favicon.ico");
 
 info.componentLabel(
 	"information",
@@ -356,7 +358,7 @@ There is an even easier way to type the code, which gives us the same result. We
 ```js
 const info = new popup.Popup(); // We are not chaining from here, but you can if you want.
 
-info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico")
+info.createWindow("Server Reboot", [275, 175], "./favicon.ico")
 	.componentLabel(
 		"information",
 		"The server rebooted at 2:14 PM on 16/10/2021.",
@@ -381,7 +383,7 @@ Now, let's see the methods in `Popup` in more detail.
 #### `createWindow`
 
 ```
-createWindow(title, size[, iconPath][, startPos][, name])
+createWindow(title, size[, resizable][, iconPath][, startPos][, name])
 ```
 
 This method creates a window, which is where all of the popup components go.
@@ -392,9 +394,9 @@ This method needs a title, which is the main title of the popup.
 
 The next parameter is the size, which is an array of two numbers. These numbers determine the size of the window. So, `[300, 200]` means that the width is `300`, and the height is `200`.
 
-After that come the optional parameters. The next parameter specifies the icon path for the icon on the popup window. This must be an `.ico` picture extension. If the icon is empty, then the default is a picture will red, blue, and yellow blocks.
+After that come the optional parameters. The first optional parameter is for specifing if the window should be resizable.
 
-_Note: The path must be from the drive. Otherwise, the icon will not display (e.g. `C:/Users/Someone/Popup-Prompt/favicon.ico`, not `./favicon.ico`). This bug will soon be fixed._
+The next parameter specifies the icon path for the icon on the popup window. This must be an `.ico` picture extension. If the icon is empty, then the default is a picture will red, blue, and yellow blocks.
 
 The tipical sizes for an icon are _16 × 16_, _32 × 32_, and _48 × 48_ pixels. For great icons, see [this website](https://icon-icons.com/)!
 
@@ -474,6 +476,24 @@ After that come the optional parameters. The fourth one is a listener. This will
 
 The last parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 
+#### `componentImage`
+
+```
+componentImage(name, path, location[, windowName])
+```
+
+Create an image to display.
+
+_Note: This method does not open the popup/window. To do this, run `openPopup`._
+
+For the first parameter, like any other component, the image requires a name, which is its variable name. **Beware that if you pass a value that exists, there could be errors.**
+
+The second parameter is the relative path of the image to display. This supports raster picture file types, so you can use file extensions such as `.png` and `.jpg`.
+
+The third parameter is the location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 10]`, then `10` is the width, and `10` is the height.
+
+The last parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+
 #### `renderWindow`
 
 ```
@@ -515,9 +535,93 @@ Now, let's look at it in detail.
 
 The first parameter that the callback passes is the data. This is the data from a button or text box (if `listen` is set to true). If there are no listeners, then the data will be a zero-length string. Otherwise, it will be the button clicked, or the text in the text box entered, depending on what has been listened.
 
-The second parameter that the callback passes is the error. This is a string telling the user that an error occured. _Note: This method does not exactly tell what the error is. This may be introduced in version 1.1.0._
+The second parameter that the callback passes is the error. This is a string telling the user that an error occured.
+
+_In v1.1.0, descriptive errors were introduced._
 
 Once both of the parameters are there, then, in the callback body, you should add an `if/else` statement, and check if there is an error. The reason is because if there is an error, it will have a value, otherwise, it will have a value of `null`. The same applies for the `data`. In the `else` clause, you can do whatever you wish with the data.
+
+## Real Examples
+
+You may be wondering what `popup-prompt` can be used for in real life. Well, for testing purposes, we have created a few real-life examples for you to try!
+
+### File Setup Wizard
+
+This is a simple program which uses all of the methods issued in _v1.1.0_. It also uses `showMessageBox` with the `Popup` class!
+
+See the code below, and then see the result!
+
+```js
+const fs = require("fs");
+const files = new popup.Popup();
+
+files
+	.createWindow("File Setup Wizard", [500, 255], false, "./favicon.ico")
+	.componentImage("pic", "./File-Setup.png", [0, 0])
+	.componentLabel("title", "Welcome to the File Setup Wizard!", [125, 25], [200, 20])
+	.componentLabel(
+		"info",
+		"To make a new file, type in the file contents, and we will make it!",
+		[125, 75],
+		[325, 20]
+	)
+	.componentTextBox("content", [125, 100], [325, 20], true)
+	.componentButton("submit", "Create", [125, 150], [75, 25], "OK")
+	.renderWindow(true)
+	.openPopup((data, err) => {
+		if (err) {
+			console.log(err);
+
+			popup.showMessageBox(
+				`File Setup Wizard - Error Creating File`,
+				`An error occured while creating the file. ERR_PROGRAM_ERROR`,
+				"OK",
+				"Error"
+			);
+		} else if (data) {
+			try {
+				fs.writeFileSync("text.txt", data);
+			} catch (err) {
+				console.log(err);
+
+				popup.showMessageBox(
+					`File Setup Wizard - Error Creating File`,
+					`An error occured while creating the file. ERR_CREATION_ERROR`,
+					"OK",
+					"Error"
+				);
+			}
+
+			popup.showMessageBox(
+				`File Setup Wizard - Created File`,
+				`Successfully created the file! See it in your present working directory (PWD).`,
+				"OK",
+				"Information"
+			);
+		} else {
+			popup.showMessageBox(
+				`File Setup Wizard - Error Creating File`,
+				`An error occured while creating the file. ERR_NO_CONTENT`,
+				"OK",
+				"Error"
+			);
+		}
+	});
+```
+
+Now, after a bunch of code, let's see the result!
+
+![Popup-Real-One](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Real-One.png)
+
+If we pass in file contents, we should see a success message, and a new file in the PWD (present working directory).
+
+![Popup-Real-Two](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Real-Two.png)
+
+If we don't pass in any file contents (or another error occured), we should see an error message.
+
+![Popup-Real-Three](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Real-Three.png)
+
+So, even though it's a bit of code, the end result is _amazing_!
 
 ## More Coming Soon!
 

@@ -190,7 +190,7 @@ export class Popup {
 	 * ```js
 	 * const info = new popup.Popup(); // We are not chaining from here, but you can if you want.
 	 *
-	 * info.createWindow("Server Reboot", [275, 175], "C:/Users/Someone/Popup-Prompt/favicon.ico")
+	 * info.createWindow("Server Reboot", [275, 175], "./favicon.ico")
 	 * 	.componentLabel(
 	 * 		"information",
 	 * 		"The server rebooted at 2:14 PM on 16/10/2021.",
@@ -230,27 +230,32 @@ export class Popup {
 		script: string,
 		callback: (data: string, err: string) => void
 	): void;
+	/**
+	 * Get the full path to the user's file.
+	 *
+	 * @param relativePath The relative path provided by the user.
+	 * @returns The full path.
+	 */
+	#getUserDir(relativePath: string): string;
 
 	/**
 	 * This method creates a window, which is where all of the popup components go.
 	 *
 	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
 	 *
-	 * ### Notes for Icons!
-	 *
-	 * _Note: The path must be from the drive. Otherwise, the icon will not display (e.g. `C:/Users/Someone/Popup-Prompt/favicon.ico`, not `./favicon.ico`). This bug will soon be fixed._
-	 *
 	 * The tipical sizes for an icon are _16 × 16_, _32 × 32_, and _48 × 48_ pixels. For great icons, see [this website](https://icon-icons.com/)!
 	 *
 	 * @param title A title, which is the main title of the popup.
 	 * @param size The size, which is an array of two numbers. These numbers determine the size of the window. So, `[300, 200]` means that the width is `300`, and the height is `200`.
-	 * @param iconPath The icon path for the icon on the popup window. This must be an `.ico` picture extension. If the icon is empty, then the default is a picture will red, blue, and yellow blocks.
+	 * @param resizable If the window can be resized.
+	 * @param iconPath The icon path for the icon on the popup window. This must be an `.ico` picture extension. If the icon is empty, then the default is a picture with red, blue, and yellow blocks.
 	 * @param startPos the start position. This is the position of the window. This defaults to `CenterScreen`.
 	 * @param name The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 	 */
 	createWindow(
 		title: string,
 		size: [number, number],
+		resizable?: boolean,
 		iconPath?: string,
 		startPos?: startPos,
 		name?: string
@@ -297,6 +302,9 @@ export class Popup {
 		windowName?: string
 	): this;
 	/**
+	 * Create a text box for the user to enter text in.
+	 *
+	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
 	 *
 	 * @param name A name, which is the text box's variable name. **Beware that if you pass a value that exists, there could be errors.**
 	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
@@ -309,6 +317,22 @@ export class Popup {
 		location: [number, number],
 		size: [number, number],
 		listen?: boolean,
+		windowName?: string
+	): this;
+	/**
+	 * Create an image to display.
+	 *
+	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
+	 *
+	 * @param name A name, which is the image's variable name. **Beware that if you pass a value that exists, there could be errors.**
+	 * @param path The path to the image. This can be a relative path, and you can pass any valid picture type, such as _.png_ or _.jpg_.
+	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 10]`, then `10` is the width, and `10` is the height.
+	 * @param windowName The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 */
+	componentImage(
+		name: string,
+		path: string,
+		location: [number, number],
 		windowName?: string
 	): this;
 

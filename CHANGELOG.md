@@ -4,6 +4,16 @@ The Changelog shows all of the different versions that have come and gone, and w
 
 ## Versions
 
+### `v1.1.0`
+
+This version was a major bug fix and new feature(s) version.
+
+-   Added `componentImage` method to the `Popup` class. This can be used to add any type of image.
+-   Added relative path support to icons and images for the `Popup` class.
+-   Added support for non-resizable `Popup` windows.
+-   Added discriptive errors.
+-   Added real-life example in `README`.
+
 ### `v1.0.5`
 
 This version introduced better type definitions, and also a new class!
