@@ -288,7 +288,7 @@ _Note: In this example, we are creating a server reboot information dialog, so t
 Then, you can create the window for all the data. This will include the icon as well.
 
 ```js
-info.createWindow("Server Reboot", [275, 175], "./favicon.ico");
+info.createWindow("Server Reboot", [275, 175], true, "./favicon.ico");
 ```
 
 _Note: The icon is a server-like image._
@@ -323,7 +323,7 @@ The total code is below.
 ```js
 const info = new popup.Popup();
 
-info.createWindow("Server Reboot", [275, 175], "./favicon.ico");
+info.createWindow("Server Reboot", [275, 175], true, "./favicon.ico");
 
 info.componentLabel(
 	"information",
@@ -358,7 +358,7 @@ There is an even easier way to type the code, which gives us the same result. We
 ```js
 const info = new popup.Popup(); // We are not chaining from here, but you can if you want.
 
-info.createWindow("Server Reboot", [275, 175], "./favicon.ico")
+info.createWindow("Server Reboot", [275, 175], true, "./favicon.ico")
 	.componentLabel(
 		"information",
 		"The server rebooted at 2:14 PM on 16/10/2021.",
@@ -622,6 +622,82 @@ If we don't pass in any file contents (or another error occured), we should see 
 ![Popup-Real-Three](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Real-Three.png)
 
 So, even though it's a bit of code, the end result is _amazing_!
+
+### Letter Counter
+
+This quick demo shows how a text box is used to get input from a user, count the number of letters, and display another box with the results.
+
+```js
+new popup.Popup()
+	.createWindow("Letter Counter", [500, 220], false, "./favicon.ico")
+	.componentImage("pic", "./Letters.png", [10, 10])
+	.componentLabel("title", "Letter Occurance Counter", [175, 25], [200, 20])
+	.componentLabel(
+		"info",
+		"This counter will automatically count the number of letters in the sentence you pass!",
+		[175, 60],
+		[300, 30]
+	)
+	.componentTextBox("content", [175, 100], [300, 20], true)
+	.componentButton("submit", "Count!", [175, 135], [75, 25], "OK")
+	.renderWindow(true)
+	.openPopup((data, err) => {
+		if (err) {
+			console.log(err);
+		} else {
+			const letters = [...data];
+			const occurances = {};
+
+			letters.forEach((letter) => {
+				letter = letter
+					.replace(/[!"#$%&'()*+,-.\\/:;<=>?@[\]^_`{|}~]/g, "")
+					.trim()
+					.toLowerCase();
+
+				occurances[letter] ? (occurances[letter] += 1) : (occurances[letter] = 1);
+			});
+
+			Object.keys(occurances).forEach((key) => {
+				if (key === "") {
+					delete occurances[key];
+				}
+			});
+
+			let formatted = "";
+			for (const key in occurances) {
+				formatted += `${key}  -  ${occurances[key]}\n`;
+			}
+
+			new popup.Popup()
+				.createWindow("Letter Counter Results", [500, 220], true, "./favicon.ico")
+				.componentImage("pic", "./Letters.png", [10, 10])
+				.componentLabel("title", "Letter Occurance Counter Results", [175, 25], [200, 20])
+				.componentLabel(
+					"info",
+					"See the stats below for the number of occurances!",
+					[175, 60],
+					[300, 30]
+				)
+				.componentLabel("stats", formatted, [200, 100], [300, 100])
+				.renderWindow(true)
+				.openPopup((data, err) => {
+					if (err) {
+						console.log(err);
+					}
+				});
+		}
+	});
+```
+
+That's a lot of code! But, it still works...
+
+![Popup-Real-Four](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Real-Four.png)
+
+If we pass in _Popup Prompt_, it will show the number of characters (excluding symbols and spaces) below.
+
+![Popup-Real-Five](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Real-Five.png)
+
+And that's how simple it is to make a should-be-complex-program with `popup-prompt`!
 
 ## More Coming Soon!
 
