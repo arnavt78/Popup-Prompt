@@ -27,12 +27,14 @@
     -   [Constant: `AVAILABLE_VALUES`](#constant-available_values)
     -   [Method: `showMessageBox`](#method-showmessagebox)
     -   [Method: `showPrompt`](#method-showprompt)
+    -   [Method: `showCredentials`](#method-showcredentials)
     -   [Class: `Popup`](#class-popup)
         -   [`createWindow`](#createwindow)
         -   [`componentLabel`](#componentlabel)
         -   [`componentButton`](#componentbutton)
         -   [`componentTextBox`](#componenttextbox)
         -   [`componentImage`](#componentimage)
+        -   [`componentListBox`](#componentlistbox)
         -   [`renderWindow`](#renderwindow)
         -   [`openPopup`](#openpopup)
 -   [Real Examples](#real-examples)
@@ -82,13 +84,14 @@ _Reminder: You also need PowerShell 5.1 (or above) installed on your device._
 
 Below is a table of all of the constants and methods available in the `popup-prompt` package.
 
-| Name & Parameters                                                    | Type     | Description                                          |
-| -------------------------------------------------------------------- | -------- | ---------------------------------------------------- |
-| `VERSION`                                                            | Constant | Show the current version of the package.             |
-| `AVAILABLE_VALUES`                                                   | Constant | Show the values that can be passed into the methods. |
-| `showMessageBox(title, message[, type][, picture][, defaultOption])` | Method   | Show a customizable message popup window.            |
-| `showPrompt(title, message[, defaultValue])`                         | Method   | Show a customizable prompt popup window.             |
-| `Prompt()`                                                           | Class    | Make a fully customizable popup window.              |
+| Name & Parameters                                                    | Type     | Description                                                    |
+| -------------------------------------------------------------------- | -------- | -------------------------------------------------------------- |
+| `VERSION`                                                            | Constant | Show the current version of the package.                       |
+| `AVAILABLE_VALUES`                                                   | Constant | Show the values that can be passed into the methods.           |
+| `showMessageBox(title, message[, type][, picture][, defaultOption])` | Method   | Show a message popup window.                                   |
+| `showPrompt(title, message[, defaultValue])`                         | Method   | Show a prompt popup window, in which a user can enter text in. |
+| `showCredentials(title, message[, username][, targetName])`          | Method   | Show a credential popup window.                                |
+| `Popup()`                                                            | Class    | Make a fully customizable popup window.                        |
 
 ## Versions (Legacy and Coming)
 
@@ -96,27 +99,25 @@ To see the full history of changes, see the `CHANGELOG.md` file.
 
 ### Legacy Version
 
-Version **1.1.0** included...
+Version **1.1.5** included...
 
--   Added `componentImage` method to the `Popup` class. This can be used to add any type of image.
--   Added relative path support to icons and images for the `Popup` class.
--   Added support for non-resizable `Popup` windows.
--   Added discriptive errors.
--   Added real-life example in `README`.
+-   Added `componentListBox` method to the `Popup` class. This is used to allow the user to select an available option.
+-   Added new `showCredentials` function. This asks the user for their username and password of any account (which you can specifiy). _Note: The username and password will be returned, so you will have to validate it._
+-   Fixed a few minor bugs and code format.
+-   Resolved the issue where icons and images would not show up correctly ([#5](https://github.com/arnavthorat78/Popup-Prompt/issues/5)).
 
 ### Coming Version
 
 _Note: The items below may change at any time._
 
-Version **1.1.5** is set to include...
+Version **1.2.0** is set to include...
 
--   Added `componentListBox` method to the `Popup` class. This is used to allow the user to select an available option.
--   Added new `showCredentials` function. This asks the user for their username and password of any account (which you can specifiy). _Note: The username and password will be returned, so you will have to validate it._
--   Fixed a few minor bugs and code format.
+-   Added a new methods in the `Popup` class called `componentCalendar`. This displays a calendar for the user to select a date from.
+-   Fixed a few bugs.
 
 ## Usage
 
-There are currently two methods, two constants, and one class available. They will be shown below.
+There are currently three methods, two constants, and one class available. They will be shown below.
 
 ### Constant: `VERSION`
 
@@ -160,7 +161,13 @@ Which then outputs...
         ],
         defaultOption: [ "Cancel", "No", "None", "OK", "Yes" ]
     },
-    showPrompt: { title: [], message: [], defaultValue: [] }
+    showPrompt: { title: [], message: [], defaultValue: [] },
+	showCredentials: {
+		title: [],
+		message: [],
+		username: [],
+		targetName: [],
+	},
 }
 ```
 
@@ -302,6 +309,58 @@ Finally, the last parameter is optional, and that is the default value. This is 
 You may notice that unlike `showMessageBox`, not one of `showPrompt`'s parameters has some set values.
 
 And that's how easy it is to display a prompt to your user to get some data from them!
+
+### Method: `showCredentials`
+
+```
+showCredentials(title, message[, username][, targetName])
+```
+
+The method creates a credential popup, which asks the user for their credentials. This includes the title, the message, and a default username and/or target name.
+
+_Note: When you run this method, you will notice a PowerShell file appear in your current working directory. This is essential for the credential to display. Also, when the user enters their text, a text file will appear with the text entered. This is for the PowerShell file to communicate with NodeJS._
+
+This method returns a `Promise`, which contains an object with credential and error information. _Note: If the user presses the Cancel button, presses the **X** (close) button, or an error occured, then the returned value will have `username` and `password` be `null`._
+
+Below is an example of how to use the method.
+
+```js
+popup
+	.showCredentials(
+		"Popup Prompt Login",
+		"Please enter your credentials to login to Popup Prompt.",
+		"",
+		"popup-prompt"
+	)
+	.then((cred) => {
+		console.log(cred);
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+```
+
+When you run the code, a PowerShell file will appear in your current working directory, and then, a credential popup, similar to the one below (depending on your OS) will show up.
+
+![Show-Credentials-Popup-Four](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Show-Credentials-Popup-Four.png)
+
+Once the user clicks the _OK_ button, the _Cancel_ button, or the _Close_ button, a text file will appear in your current working directory, and then, in the terminal/command prompt, an object will appear. The data may varie, depending on how the user reacted.
+
+```
+{ username: 'popup-prompt\\popup', password: 'password', error: null }
+```
+
+Now, let's go over what happens.
+
+The first parameter is the title to display on the top of the popup.
+
+The second parameter is the message to display to the user, telling them what the credential prompt is for.
+
+The third parameter is the default username to show in the username field.
+
+The fourth parameter is the name that will show behind the username. This shows the target of the user.
+
+And that's how easy it is to display a credential popup to your user!
 
 ### Class: `Popup`
 
@@ -531,6 +590,30 @@ The second parameter is the relative path of the image to display. This supports
 The third parameter is the location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 10]`, then `10` is the width, and `10` is the height.
 
 The last parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+
+#### `componentListBox`
+
+```
+componentListBox(name, items, location, size, height[, listen][, windowName])
+```
+
+Create a list box, which is a list of items for the user to select from.
+
+_Note: This method does not open the popup/window. To do this, run `openPopup`._
+
+The first parameter is the name, which is the list's variable name. **Beware that if you pass a value that exists, there could be errors.**
+
+The second parameter is the array of strings, which are the items to display.
+
+The third parameter is the location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 10]`, then `10` is the width, and `10` is the height.
+
+The fourth parameter is the size. This is an array of two numbers. These numbers determine the size of the list box.
+
+The fifth parameter is the height. This is the displayed height.
+
+The sixth parameter specifies if the end result should be the selected value. Default value is `false`.
+
+The seventh parameter is the name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 
 #### `renderWindow`
 

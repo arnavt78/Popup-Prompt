@@ -161,6 +161,54 @@ export const showMessageBox: (
  */
 export const showPrompt: (title: string, message: string, defaultValue?: string) => Promise<string>;
 
+/**
+ * Show a credential prompt to the user. On Windows, this includes a picture of keys as the header, along with the username and password input.
+ *
+ * This method returns an object, with the username, password, and error. If an error occured, then username and password are `null`, otherwise, if everything went okay, error is `null`.
+ *
+ * Please note that the password is stored in plain text. It is your responsibility to make the string secure.
+ *
+ * Example:
+ *
+ * ```js
+ * popup
+ *	    .showCredentials(
+ *	   	    "Popup Prompt Login",
+ *	   	    "Please enter your credentials to login to Popup Prompt.",
+ *	   	    "",
+ *	   	    "popup-prompt"
+ *	    )
+ *	    .then((cred) => {
+ *	   	    console.log(cred);
+ *	    })
+ *	    .catch((err) => {
+ *	   	    console.log(err);
+ *	    });
+ * ```
+ *
+ * If the user does not cancel the authentication, then the returned value should be an object. The popup will look as below (on Windows 10).
+ *
+ * ![Show-Credentials-Popup-Four](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Show-Credentials-Popup-Four.png)
+ *
+ * That's all!
+ *
+ * @param title The title to display on the top of the popup.
+ * @param message The message to display to the user, telling them what the credential prompt is for.
+ * @param username The default username to show in the username field.
+ * @param targetName The name that will show behind the username. This shows the target of the user.
+ * @returns A `Promise`, which contains an object, having the `username`, `password`, and `error` parameters.
+ */
+export const showCredentials: (
+	title: string,
+	message: string,
+	username?: string,
+	targetName?: string
+) => Promise<{
+	username: string | null;
+	password: string | null;
+	error: string | null;
+}>;
+
 //////////////
 // Classes //
 ////////////
@@ -333,6 +381,28 @@ export class Popup {
 		name: string,
 		path: string,
 		location: [number, number],
+		windowName?: string
+	): this;
+	/**
+	 * Create a list box, which is a list of items for the user to select from.
+	 *
+	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
+	 *
+	 * @param name A name, which is the list's variable name. **Beware that if you pass a value that exists, there could be errors.**
+	 * @param items An array of strings, which are the items to display.
+	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 10]`, then `10` is the width, and `10` is the height.
+	 * @param size The size. This is an array of two numbers. These numbers determine the size of the list box.
+	 * @param height The height. This is the displayed height.
+	 * @param listen This parameter specifies if the end result should be the selected value. Default value is `false`.
+	 * @param windowName The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 */
+	componentListBox(
+		name: string,
+		items: string[],
+		location: [number, number],
+		size: [number, number],
+		height: number,
+		listen?: boolean,
 		windowName?: string
 	): this;
 

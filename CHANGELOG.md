@@ -4,6 +4,13 @@ The Changelog shows all of the different versions that have come and gone, and w
 
 ## Versions
 
+### `v1.1.5`
+
+-   Added `componentListBox` method to the `Popup` class. This is used to allow the user to select an available option.
+-   Added new `showCredentials` function. This asks the user for their username and password of any account (which you can specifiy). _Note: The username and password will be returned, so you will have to validate it._
+-   Fixed a few minor bugs and code format.
+-   Resolved the issue where icons and images would not show up correctly ([#5](https://github.com/arnavthorat78/Popup-Prompt/issues/5)).
+
 ### `v1.1.0`
 
 This version was a major bug fix and new feature(s) version.

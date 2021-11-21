@@ -27,6 +27,7 @@ const AVAILABLE_VALUES = require("./lib/constants/availableValues").AVAILABLE_VA
 // Getting functions
 const showMessageBox = require("./lib/functions/showMessageBox").showMessageBox;
 const showPrompt = require("./lib/functions/showPrompt").showPrompt;
+const showCredentials = require("./lib/functions/showCredentials").showCredentials;
 
 // Getting classes
 const Popup = require("./lib/classes/Popup").Popup;
@@ -36,5 +37,6 @@ module.exports = {
 	AVAILABLE_VALUES,
 	showMessageBox,
 	showPrompt,
+	showCredentials,
 	Popup,
 };
