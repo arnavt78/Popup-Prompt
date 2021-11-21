@@ -17,7 +17,11 @@
 -   [Table of Contents](#table-of-contents)
 -   [PowerShell Needed](#powershell-needed)
 -   [Installation](#installation)
+-   [Abilities](#abilities)
 -   [Functionality](#functionality)
+-   [Versions (Legacy and Coming)](#versions-legacy-and-coming)
+    -   [Legacy Version](#legacy-version)
+    -   [Coming Version](#coming-version)
 -   [Usage](#usage)
     -   [Constant: `VERSION`](#constant-version)
     -   [Constant: `AVAILABLE_VALUES`](#constant-available_values)
@@ -46,8 +50,6 @@ Please make sure that you have PowerShell 5.1 (or above) installed on your devic
 
 On Windows devices, it should come pre-installed. However, on MacOS and Linux, you may need to download it at [this website](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-5.1).
 
-_Note: The PowerShell version may change at anytime in the future._
-
 **Important Note: Make sure your computer is supported for PowerShell at [this website](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-5.1).**
 
 ## Installation
@@ -66,6 +68,16 @@ const popup = require("popup-prompt");
 
 And that's it!
 
+## Abilities
+
+This amazing _npm_ module, `popup-prompt`, is very powerful! It can make popups so that you can show a better UI to your user!
+
+The main capabilities that `popup-prompt` can do includes showing pre-made popups, and also making your own complex popups easily in just a few lines!
+
+So, to use this extraordinary module, run `npm install popup-prompt` to use it now!
+
+_Reminder: You also need PowerShell 5.1 (or above) installed on your device._
+
 ## Functionality
 
 Below is a table of all of the constants and methods available in the `popup-prompt` package.
@@ -77,6 +89,30 @@ Below is a table of all of the constants and methods available in the `popup-pro
 | `showMessageBox(title, message[, type][, picture][, defaultOption])` | Method   | Show a customizable message popup window.            |
 | `showPrompt(title, message[, defaultValue])`                         | Method   | Show a customizable prompt popup window.             |
 | `Prompt()`                                                           | Class    | Make a fully customizable popup window.              |
+
+## Versions (Legacy and Coming)
+
+To see the full history of changes, see the `CHANGELOG.md` file.
+
+### Legacy Version
+
+Version **1.1.0** included...
+
+-   Added `componentImage` method to the `Popup` class. This can be used to add any type of image.
+-   Added relative path support to icons and images for the `Popup` class.
+-   Added support for non-resizable `Popup` windows.
+-   Added discriptive errors.
+-   Added real-life example in `README`.
+
+### Coming Version
+
+_Note: The items below may change at any time._
+
+Version **1.1.5** is set to include...
+
+-   Added `componentListBox` method to the `Popup` class. This is used to allow the user to select an available option.
+-   Added new `showCredentials` function. This asks the user for their username and password of any account (which you can specifiy). _Note: The username and password will be returned, so you will have to validate it._
+-   Fixed a few minor bugs and code format.
 
 ## Usage
 
