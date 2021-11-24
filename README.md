@@ -112,7 +112,8 @@ _Note: The items below may change at any time._
 
 Version **1.2.0** is set to include...
 
--   Added a new methods in the `Popup` class called `componentCalendar`. This displays a calendar for the user to select a date from.
+-   Added an `options` object to some methods in the `Popup` class, and also other methods.
+-   Added an object instead of an array on the `location` and `size` parameters in some components and the window creation.
 -   Fixed a few bugs.
 
 ## Usage
