@@ -6,6 +6,8 @@ The Changelog shows all of the different versions that have come and gone, and w
 
 ### `v1.1.5`
 
+This version included new components, popup types, and bug fixes.
+
 -   Added `componentListBox` method to the `Popup` class. This is used to allow the user to select an available option.
 -   Added new `showCredentials` function. This asks the user for their username and password of any account (which you can specifiy). _Note: The username and password will be returned, so you will have to validate it._
 -   Fixed a few minor bugs and code format.
