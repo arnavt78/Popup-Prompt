@@ -55,7 +55,7 @@ export const AVAILABLE_VALUES: {
 // Functions //
 //////////////
 
-// showMessageBox types //
+// showMessageBox types and interfaces //
 type typeType = "OK" | "OKCancel" | "YesNo" | "YesNoCancel";
 type pictureType =
 	| "Asterisk"
@@ -68,6 +68,12 @@ type pictureType =
 	| "Stop"
 	| "Warning";
 type buttonType = "Cancel" | "No" | "None" | "OK" | "Yes";
+
+interface MessageBoxOptions {
+	type?: typeType;
+	picture?: pictureType;
+	defaultOption?: buttonType;
+}
 
 /**
  * This method shows a customizable message box. It can have a title, message, button/buttons and an image.
@@ -83,9 +89,11 @@ type buttonType = "Cancel" | "No" | "None" | "OK" | "Yes";
  * 	.showMessageBox(
  * 		"Confirm Deleting File",
  * 		"Are you sure you want to delete the file? This action is irreversible.",
- * 		"YesNoCancel",
- * 		"Warning",
- * 		"No"
+ * 		{
+ * 			type: "YesNoCancel",
+ * 			picture: "Warning",
+ * 			defaultOption: "No"
+ * 		}
  * 	)
  * 	.then((btn) => {
  * 		console.log(btn);
@@ -107,19 +115,21 @@ type buttonType = "Cancel" | "No" | "None" | "OK" | "Yes";
  * No
  * ```
  *
+ * ### `options` Parameter
+ * See the list of parameters below for the `options`.
+ * -   `type` (_optional_) - The buttons that display on the bottom. They, however, can only be a few values. Passing anything other than this will cause an error.
+ * -   `picture` (_optional_) - The icon to display. This is a set list of icons, and must only be of a few values.
+ * -   `defaultOption` (_optional_) - The default value for the button. So, if the user clicks _Enter_ when the popup comes, and the default value is set, then it will automatically go with it. It must be one of the button values.
+ *
  * @param title The title is a string of the name of the popup/window. This appears when the user sees the top of the popup, and also when they see the taskbar (Windows) and see the name.
  * @param message The description, where you can write a sentence or two, telling the user what the popup is for.
- * @param type The buttons that display on the bottom. They, however, can only be a few values. Passing anything other than this will cause an error.
- * @param picture The icon to display. This is a set list of icons, and must only be of a few values.
- * @param defaultOption The default value for the button. So, if the user clicks _Enter_ when the popup comes, and the default value is set, then it will automatically go with it. It must be one of the button values.
+ * @param options A list of options for customizing the message box. See the above header for information of the values.
  * @returns This method returns a `Promise`, which contains the button on which the user clicked on.
  */
 export const showMessageBox: (
 	title: string,
 	message: string,
-	type?: typeType,
-	picture?: pictureType,
-	defaultOption?: buttonType
+	options?: MessageBoxOptions
 ) => Promise<buttonType>;
 
 /**
