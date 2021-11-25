@@ -32,9 +32,13 @@
 export const VERSION: string;
 
 /**
+ * **Deprecation warning! This variable has been deprecated since _v1.2.0_. It has not been updated since then. Use with caution.**
+ *
  * Get all of the default available values for parameters in methods (e.g. `showMessageBox`).
  *
  * If a key in a method is an empty array, then that means that the value can be anything.
+ *
+ * @deprecated
  */
 export const AVAILABLE_VALUES: {
 	showMessageBox: {
@@ -49,6 +53,12 @@ export const AVAILABLE_VALUES: {
 		message: undefined[];
 		defaultValue: undefined[];
 	};
+	showCredentials: {
+		title: undefined[];
+		message: undefined[];
+		username: undefined[];
+		targetName: undefined[];
+	};
 };
 
 ////////////////
@@ -56,8 +66,8 @@ export const AVAILABLE_VALUES: {
 //////////////
 
 // showMessageBox types and interfaces //
-type typeType = "OK" | "OKCancel" | "YesNo" | "YesNoCancel";
-type pictureType =
+type TypeType = "OK" | "OKCancel" | "YesNo" | "YesNoCancel";
+type PictureType =
 	| "Asterisk"
 	| "Error"
 	| "Exclamation"
@@ -67,12 +77,12 @@ type pictureType =
 	| "Question"
 	| "Stop"
 	| "Warning";
-type buttonType = "Cancel" | "No" | "None" | "OK" | "Yes";
+type ButtonType = "Cancel" | "No" | "None" | "OK" | "Yes";
 
 interface MessageBoxOptions {
-	type?: typeType;
-	picture?: pictureType;
-	defaultOption?: buttonType;
+	type?: TypeType;
+	picture?: PictureType;
+	defaultOption?: ButtonType;
 }
 
 /**
@@ -116,6 +126,7 @@ interface MessageBoxOptions {
  * ```
  *
  * ### `options` Parameter
+ *
  * See the list of parameters below for the `options`.
  * -   `type` (_optional_) - The buttons that display on the bottom. They, however, can only be a few values. Passing anything other than this will cause an error.
  * -   `picture` (_optional_) - The icon to display. This is a set list of icons, and must only be of a few values.
@@ -130,7 +141,13 @@ export const showMessageBox: (
 	title: string,
 	message: string,
 	options?: MessageBoxOptions
-) => Promise<buttonType>;
+) => Promise<ButtonType>;
+
+// showPrompt interfaces //
+
+interface PromptOptions {
+	defaultValue?: string;
+}
 
 /**
  * The method creates a customizable prompt popup. This includes the title, the message, and the default value for the text field.
@@ -143,7 +160,7 @@ export const showMessageBox: (
 
  * ```js
  * popup
- * 	.showPrompt("New File", "Type the new file name below.", "text.txt")
+ * 	.showPrompt("New File", "Type the new file name below.", { defaultValue: "text.txt" })
  * 	.then((fileName) => {
  * 		console.log(fileName);
  * 	})
@@ -164,12 +181,34 @@ export const showMessageBox: (
  * 
  * Then, you can do whatever you want with the value!
  * 
+ * ### `options` Parameter
+ * 
+ * See the list of options available!
+ * -   `defaultValue` (_optional_) -  The default value. This is the value that should appear by default in the text field. This will be highlighted (like in the picture), so that if the user wants to go with it, they can just press _Enter_.
+ * 
  * @param title The title. This is a string that should appear at the top on the popup window, and also on the taskbar (Windows) when they hover over the window.
  * @param message The message. This can be a sentence or two, telling the user what the prompt is for.
- * @param defaultValue The default value. This is the value that should appear by default in the text field. This will be highlighted (like in the picture), so that if the user wants to go with it, they can just press _Enter_.
+ * @param options A list of options for customizing the prompt. See the above header for information of the values.
  * @returns A `Promise`, which contains the string that the user entered. _Note: If the user presses the Cancel button, or presses the **X** (close) button, then the returned value will be a zero-length string._
  */
-export const showPrompt: (title: string, message: string, defaultValue?: string) => Promise<string>;
+export const showPrompt: (
+	title: string,
+	message: string,
+	options?: PromptOptions
+) => Promise<string>;
+
+// showCredentials interfaces //
+
+interface CredentialsOptions {
+	username?: string;
+	targetName?: string;
+}
+
+interface CredentialsReturn {
+	username: string | null;
+	password: string | null;
+	error: string | null;
+}
 
 /**
  * Show a credential prompt to the user. On Windows, this includes a picture of keys as the header, along with the username and password input.
@@ -185,8 +224,7 @@ export const showPrompt: (title: string, message: string, defaultValue?: string)
  *	    .showCredentials(
  *	   	    "Popup Prompt Login",
  *	   	    "Please enter your credentials to login to Popup Prompt.",
- *	   	    "",
- *	   	    "popup-prompt"
+ *	   	    { username: "", targetName: "popup-prompt" }
  *	    )
  *	    .then((cred) => {
  *	   	    console.log(cred);
@@ -202,22 +240,22 @@ export const showPrompt: (title: string, message: string, defaultValue?: string)
  *
  * That's all!
  *
+ * ### `options` Parameter
+ *
+ * The options parameter can be used to entend the functionality of `showCredentials` even further!
+ * -   `username` (_optional_) - The default username to show in the username field.
+ * -   `targetName` (_optional_) - The name that will show behind the username. This shows the target of the user.
+ *
  * @param title The title to display on the top of the popup.
  * @param message The message to display to the user, telling them what the credential prompt is for.
- * @param username The default username to show in the username field.
- * @param targetName The name that will show behind the username. This shows the target of the user.
+ * @param options A list of options for customizing the credential prompt. See the above header for information of the values.
  * @returns A `Promise`, which contains an object, having the `username`, `password`, and `error` parameters.
  */
 export const showCredentials: (
 	title: string,
 	message: string,
-	username?: string,
-	targetName?: string
-) => Promise<{
-	username: string | null;
-	password: string | null;
-	error: string | null;
-}>;
+	options?: CredentialsOptions
+) => Promise<CredentialsReturn>;
 
 //////////////
 // Classes //
