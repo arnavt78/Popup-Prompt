@@ -314,6 +314,15 @@ interface PopupTextBoxOptions {
 interface PopupImageOptions {
 	windowName?: string;
 }
+interface PopupListBoxOptions {
+	listen?: boolean;
+	enabled?: boolean;
+	windowName?: string;
+}
+interface PopupRenderOptions {
+	topmost?: boolean;
+	name?: string;
+}
 
 export class Popup {
 	#code: {
@@ -505,23 +514,29 @@ export class Popup {
 	 * Create a list box, which is a list of items for the user to select from.
 	 *
 	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
+	 * 
+	 * ### `options` Parameter
+	 * 
+	 * Use this parameter to customize the list box!
+	 * 
+	 * -   `listen` (_optional_) - This parameter specifies if the end result should be the selected value. Default value is `false`.
+	 * -   `enabled` (_optional_) - If the list box is in an enabled state and can listen to user interaction. Default is `true`.
+	 * -   `windowName` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 	 *
 	 * @param name A name, which is the list's variable name. **Beware that if you pass a value that exists, there could be errors.**
 	 * @param items An array of strings, which are the items to display.
-	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 10]`, then `10` is the width, and `10` is the height.
-	 * @param size The size. This is an array of two numbers. These numbers determine the size of the list box.
+	 * @param location The location, which is an object. This is used to set the top-left area of the shape, using _x_ and _y_ coordinates. You can use the keys `x` and `y` for setting the coordinates.
+	 * @param size The size, which is an object. This can be used to set the width and height. For the width, you can use either `w` or `width`, and then the number of pixels. The same with the height; use `h` or `height`.
 	 * @param height The height. This is the displayed height.
-	 * @param listen This parameter specifies if the end result should be the selected value. Default value is `false`.
-	 * @param windowName The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 * @param options The options for customizing the list box. See the above for details.
 	 */
 	componentListBox(
 		name: string,
 		items: string[],
-		location: [number, number],
-		size: [number, number],
+		location: PopupLocation,
+		size: PopupSize,
 		height: number,
-		listen?: boolean,
-		windowName?: string
+		options?: PopupListBoxOptions
 	): this;
 
 	/**
@@ -529,12 +544,16 @@ export class Popup {
 	 *
 	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
 	 *
-	 * All of the parameters of this method are optional. Therefore, it is okay to not pass in anything.
+	 * ### `options` Parameter
+	 * 
+	 * Use the options parameter to customize the rendering!
+	 * 
+	 * -  `topmost` (_optional_) - If the window should be the topmost. This means that even if the window is out of focus, the popup will still stay on the top (unless the user clicks the minimize button).
+	 * -  `name` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 	 *
-	 * @param topmost If the window should be the topmost. This means that even if the window is out of focus, the popup will still stay on the top (unless the user clicks the minimize button).
-	 * @param name The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 * @param options The options to customize the rendering. See the above for details.
 	 */
-	renderWindow(topmost?: boolean, name?: string): this;
+	renderWindow(options?: PopupRenderOptions): this;
 
 	/**
 	 * This method opens the popup on the users computer.

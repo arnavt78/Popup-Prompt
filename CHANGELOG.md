@@ -4,6 +4,15 @@ The Changelog shows all of the different versions that have come and gone, and w
 
 ## Versions
 
+### `v1.2.0`
+
+This version changes many aspects of the functions and methods, so that the readablity of the code is better!
+
+-   Added an `options` object to some methods in the `Popup` class, and also other methods.
+-   Added an object instead of an array on the `location` and `size` parameters in some components and the window creation.
+-   Added more options for customizing components and window for the `Popup` class.
+-   Fixed a few bugs.
+
 ### `v1.1.5`
 
 This version included new components, popup types, and bug fixes.
