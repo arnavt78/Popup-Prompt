@@ -261,13 +261,56 @@ export const showCredentials: (
 // Classes //
 ////////////
 
-// Popup types //
-type startPos =
+// Popup types and interfaces //
+type StartPos =
 	| "CenterParent"
 	| "CenterScreen"
 	| "Manual"
 	| "WindowsDefaultBounds"
 	| "WindowsDefaultLocation";
+type ScrollBars = "None" | "Both" | "Horizontal" | "Vertical";
+type CharacterCasing = "Normal" | "Lower" | "Upper";
+
+interface PopupSize {
+	w?: number;
+	width?: number;
+	h?: number;
+	height?: number;
+}
+interface PopupLocation {
+	x: number;
+	y: number;
+}
+
+interface PopupWindowOptions {
+	maximize?: boolean;
+	minimize?: boolean;
+	showIcon?: boolean;
+	showInTaskbar?: boolean;
+	iconPath?: string;
+	startPos?: StartPos;
+	name?: string;
+}
+interface PopupLabelOptions {
+	windowName?: string;
+}
+interface PopupButtonOptions {
+	listen?: boolean;
+	enabled?: boolean;
+	windowName?: string;
+}
+interface PopupTextBoxOptions {
+	listen?: boolean;
+	multiline?: boolean;
+	enabled?: boolean;
+	maxLength?: number;
+	maskChar?: string | number;
+	wordWrap?: boolean;
+	scrollBars?: ScrollBars;
+	casing?: CharacterCasing;
+	defaultText?: string;
+	windowName?: string;
+}
 
 export class Popup {
 	#code: {
@@ -286,21 +329,17 @@ export class Popup {
 	 * ```js
 	 * const info = new popup.Popup(); // We are not chaining from here, but you can if you want.
 	 *
-	 * info.createWindow("Server Reboot", [275, 175], "./favicon.ico")
+	 * info.createWindow("Server Reboot", { width: 275, h: 175 }, { iconPath: "./favicon.ico" })
 	 * 	.componentLabel(
 	 * 		"information",
 	 * 		"The server rebooted at 2:14 PM on 16/10/2021.",
-	 * 		[10, 20],
-	 * 		[280, 20]
+	 * 		{ x: 10, y: 20 },
+	 * 		{ w: 280, h: 20 }
 	 * 	)
-	 * 	.componentButton("button", "OK", [85, 75], [75, 25], "OK", true)
-	 * 	.renderWindow(true)
+	 * 	.componentButton("button", "OK", { x: 85, y: 75 }, { w: 75, h: 25 }, "OK", { listen: true })
+	 * 	.renderWindow({ topmost: true })
 	 * 	.openPopup((data, err) => {
-	 * 		if (err) {
-	 * 			console.log(err);
-	 * 		} else {
-	 * 			console.log(data);
-	 * 		}
+	 * 		console.log(err ? err : data);
 	 * 	});
 	 * ```
 	 */
@@ -341,52 +380,64 @@ export class Popup {
 	 *
 	 * The tipical sizes for an icon are _16 × 16_, _32 × 32_, and _48 × 48_ pixels. For great icons, see [this website](https://icon-icons.com/)!
 	 *
+	 * ### `options` Parameter
+	 *
+	 * The options parameter can be used to entend the functionality of creating the window!
+	 * -   `maximize` (_optional_) - If the window should be allowed to maximize. The default is `true`.
+	 * -   `minimize` (_optional_) - If the window can be minimized. Default is `true`.
+	 * -   `showIcon` (_optional_) - If the icon should be shown on the ribbon. If this is `false`, then there will be no icon displayed. Default is `true`.
+	 * -   `showInTaskbar` (_optional_) - If the window should be displayed in the user's taskbar. Default is `true`.
+	 * -   `iconPath` (_optional_) - The icon path for the icon on the popup window. This must be an `.ico` picture extension. If the icon is empty, then the default is a picture with red, blue, and yellow blocks. Default is an empty string.
+	 * -   `startPos` (_optional_) - The (start) position of the window. This defaults to `CenterScreen`.
+	 * -   `name` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 *
 	 * @param title A title, which is the main title of the popup.
 	 * @param size The size, which is an array of two numbers. These numbers determine the size of the window. So, `[300, 200]` means that the width is `300`, and the height is `200`.
-	 * @param resizable If the window can be resized.
-	 * @param iconPath The icon path for the icon on the popup window. This must be an `.ico` picture extension. If the icon is empty, then the default is a picture with red, blue, and yellow blocks.
-	 * @param startPos the start position. This is the position of the window. This defaults to `CenterScreen`.
-	 * @param name The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 * @param options The options for customizing the window. See the above for the available items.
 	 */
-	createWindow(
-		title: string,
-		size: [number, number],
-		resizable?: boolean,
-		iconPath?: string,
-		startPos?: startPos,
-		name?: string
-	): this;
+	createWindow(title: string, size: [number, number], options?: PopupWindowOptions): this;
 
 	/**
 	 * This method creates a component label in the popup.
 	 *
 	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
 	 *
+	 * ### `options` Parameter
+	 *
+	 * The options parameter can be used to entend the functionality of a label!
+	 * -   `windowName` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 *
 	 * @param name A name, which is like a variable for the label. **If you pass in a value that already exists, there can be errors.**
 	 * @param text The text, which is basically the text to display on the label.
 	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
 	 * @param size The size. This is an array of two numbers. These numbers determine the size of the text. For example, if the numbers are `[300, 20]`, then `300` is the width, and `20` is the height.
-	 * @param windowName The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 * @param options The options for customizing the label. See the above for the available items.
 	 */
 	componentLabel(
 		name: string,
 		text: string,
 		location: [number, number],
 		size: [number, number],
-		windowName?: string
+		options?: PopupLabelOptions
 	): this;
 	/**
 	 * Create a component button in the popup.
 	 *
 	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
 	 *
+	 * ### `options` Parameter
+	 *
+	 * The options parameter can be used to entend the functionality of a label!
+	 * -   `listen` (_optional_) - A listener. This will wait for a click event, and when it occurs, it will return the `result` value in `openPopup`.
+	 * -   `enabled` (_optional_) - If the button is enabled or not. If this value is `false`, then it will showed a greyed-out button, that will not respond to user interaction. Defaults to `true`.
+	 * -   `windowName` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 *
 	 * @param name The name, which is the variable for the button. **Beware that if you pass a value that exists, there could be errors.**
 	 * @param text The text to display on the button.
 	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
 	 * @param size The size. This is an array of two numbers. These numbers determine the size of the button. For example, if the numbers are `[75, 20]`, then `300` is the width, and `20` is the height.
-	 * @param result The result, which is the result of the button (if `listen` is true). This is what is returned if `listen` is true.
-	 * @param listen A listener. This will wait for a click event, and when it occurs, it will return the `result` value in `openPopup`.
-	 * @param windowName The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 * @param result The result, which is the result of the button (if `options.listen` is true). This is what is returned if `options.listen` is true.
+	 * @param options The options for customizing the button. See the above for the available items.
 	 */
 	componentButton(
 		name: string,
@@ -394,26 +445,35 @@ export class Popup {
 		location: [number, number],
 		size: [number, number],
 		result: string,
-		listen?: boolean,
-		windowName?: string
+		options?: PopupButtonOptions
 	): this;
 	/**
 	 * Create a text box for the user to enter text in.
 	 *
 	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
 	 *
+	 * The options parameter can be used to entend the functionality of a text box!
+	 * -   `listen` (_optional_) - A listener. This will wait for a click event, and when it occurs, it will return the `result` value in `openPopup`.
+	 * -   `multiline` (_optional_) - If the text box should be allowed to be stretched multiline. If this is `true`, then the height for `size` will work. Defaults to `true`.
+	 * -   `enabled` (_optional_) - If the button is enabled or not. If this value is `false`, then it will showed a greyed-out button, that will not respond to user interaction. Defaults to `true`.
+	 * -   `maxLength` (_optional_) - The maximum length that the text box should allow. The default is `32767`.
+	 * -   `maskChar` (_optional_) - The character to mask the letters with. This is useful for passwords. If the letter should not be masked, set to `0`. Defaults to `0`.
+	 * -   `wordWrap` (_optional_) - If the words should wrap when it reaches the width of the text box, or it should keep going. Defaults to `true`.
+	 * -   `scrollBars` (_optional_) - The types of scroll bars that should show on the text box. This can be _None_, _Both_, _Horizontal_, or _Vertical_. Defaults to _None_.
+	 * -   `casing` (_optional_) - The casing that the text in the text box should turn to. This is the actual value as well as the displayed value. Defaults to _Normal_, and can also have values of _Lower_ or _Upper_.
+	 * -   `defaultText` (_optional_) - The default text that the text box should show. Defaults to an empty string.
+	 * -   `windowName` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 *
 	 * @param name A name, which is the text box's variable name. **Beware that if you pass a value that exists, there could be errors.**
 	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
 	 * @param size The size. This is an array of two numbers. These numbers determine the size of the text box. For example, if the numbers are `[250, 20]`, then `250` is the width, and `20` is the height.
-	 * @param listen A listener. This will wait for a _KeyUp_ event, and when it occurs, it will return the text in `openPopup`. _Note: This method does not return the text after each KeyUp event. Also, beware that there could be **null** readings at times._
-	 * @param windowName The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 * @param options The options for customizing the text box. See the above for the available items.
 	 */
 	componentTextBox(
 		name: string,
 		location: [number, number],
 		size: [number, number],
-		listen?: boolean,
-		windowName?: string
+		options?: PopupTextBoxOptions
 	): this;
 	/**
 	 * Create an image to display.
