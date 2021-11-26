@@ -311,6 +311,9 @@ interface PopupTextBoxOptions {
 	defaultText?: string;
 	windowName?: string;
 }
+interface PopupImageOptions {
+	windowName?: string;
+}
 
 export class Popup {
 	#code: {
@@ -392,10 +395,10 @@ export class Popup {
 	 * -   `name` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 	 *
 	 * @param title A title, which is the main title of the popup.
-	 * @param size The size, which is an array of two numbers. These numbers determine the size of the window. So, `[300, 200]` means that the width is `300`, and the height is `200`.
+	 * @param size The size, which is an object. This can be used to set the width and height. For the width, you can use either `w` or `width`, and then the number of pixels. The same with the height; use `h` or `height`.
 	 * @param options The options for customizing the window. See the above for the available items.
 	 */
-	createWindow(title: string, size: [number, number], options?: PopupWindowOptions): this;
+	createWindow(title: string, size: PopupSize, options?: PopupWindowOptions): this;
 
 	/**
 	 * This method creates a component label in the popup.
@@ -409,15 +412,15 @@ export class Popup {
 	 *
 	 * @param name A name, which is like a variable for the label. **If you pass in a value that already exists, there can be errors.**
 	 * @param text The text, which is basically the text to display on the label.
-	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
-	 * @param size The size. This is an array of two numbers. These numbers determine the size of the text. For example, if the numbers are `[300, 20]`, then `300` is the width, and `20` is the height.
+	 * @param location The location, which is an object. This is used to set the top-left area of the shape, using _x_ and _y_ coordinates. You can use the keys `x` and `y` for setting the coordinates.
+	 * @param size The size, which is an object. This can be used to set the width and height. For the width, you can use either `w` or `width`, and then the number of pixels. The same with the height; use `h` or `height`.
 	 * @param options The options for customizing the label. See the above for the available items.
 	 */
 	componentLabel(
 		name: string,
 		text: string,
-		location: [number, number],
-		size: [number, number],
+		location: PopupLocation,
+		size: PopupSize,
 		options?: PopupLabelOptions
 	): this;
 	/**
@@ -434,16 +437,16 @@ export class Popup {
 	 *
 	 * @param name The name, which is the variable for the button. **Beware that if you pass a value that exists, there could be errors.**
 	 * @param text The text to display on the button.
-	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
-	 * @param size The size. This is an array of two numbers. These numbers determine the size of the button. For example, if the numbers are `[75, 20]`, then `300` is the width, and `20` is the height.
+	 * @param location The location, which is an object. This is used to set the top-left area of the shape, using _x_ and _y_ coordinates. You can use the keys `x` and `y` for setting the coordinates.
+	 * @param size The size, which is an object. This can be used to set the width and height. For the width, you can use either `w` or `width`, and then the number of pixels. The same with the height; use `h` or `height`.
 	 * @param result The result, which is the result of the button (if `options.listen` is true). This is what is returned if `options.listen` is true.
 	 * @param options The options for customizing the button. See the above for the available items.
 	 */
 	componentButton(
 		name: string,
 		text: string,
-		location: [number, number],
-		size: [number, number],
+		location: PopupLocation,
+		size: PopupSize,
 		result: string,
 		options?: PopupButtonOptions
 	): this;
@@ -451,6 +454,8 @@ export class Popup {
 	 * Create a text box for the user to enter text in.
 	 *
 	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
+	 * 
+	 * ### `options` Parmeter
 	 *
 	 * The options parameter can be used to entend the functionality of a text box!
 	 * -   `listen` (_optional_) - A listener. This will wait for a click event, and when it occurs, it will return the `result` value in `openPopup`.
@@ -465,31 +470,36 @@ export class Popup {
 	 * -   `windowName` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 	 *
 	 * @param name A name, which is the text box's variable name. **Beware that if you pass a value that exists, there could be errors.**
-	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 20]`, then `10` is the width, and `20` is the height.
-	 * @param size The size. This is an array of two numbers. These numbers determine the size of the text box. For example, if the numbers are `[250, 20]`, then `250` is the width, and `20` is the height.
+	 * @param location The location, which is an object. This is used to set the top-left area of the shape, using _x_ and _y_ coordinates. You can use the keys `x` and `y` for setting the coordinates.
+	 * @param size The size, which is an object. This can be used to set the width and height. For the width, you can use either `w` or `width`, and then the number of pixels. The same with the height; use `h` or `height`.
 	 * @param options The options for customizing the text box. See the above for the available items.
 	 */
 	componentTextBox(
 		name: string,
-		location: [number, number],
-		size: [number, number],
+		location: PopupLocation,
+		size: PopupSize,
 		options?: PopupTextBoxOptions
 	): this;
 	/**
 	 * Create an image to display.
 	 *
 	 * _Note: This method does not open the popup/window. To do this, run `openPopup`._
+	 * 
+	 * ### `options` Parameter
+	 * 
+	 * This parameter can be used to customize the component more!
+	 * -   `windowName` (_optional_) - The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
 	 *
 	 * @param name A name, which is the image's variable name. **Beware that if you pass a value that exists, there could be errors.**
 	 * @param path The path to the image. This can be a relative path, and you can pass any valid picture type, such as _.png_ or _.jpg_.
-	 * @param location The location. This is an array of two numbers. These numbers determine the location from the top-left corner of the popup text, from the top-left of the popup window. For example, if the numbers are `[10, 10]`, then `10` is the width, and `10` is the height.
-	 * @param windowName The name of the window. **It is not recommended to change this value**, since if you do change it, then you will have to pass it in almost every other method. Therefore, it is easier to leave it alone (the default value is `window`).
+	 * @param location The location, which is an object. This is used to set the top-left area of the shape, using _x_ and _y_ coordinates. You can use the keys `x` and `y` for setting the coordinates.
+	 * @param options The options for customizing the text box. See the above for the available items.
 	 */
 	componentImage(
 		name: string,
 		path: string,
-		location: [number, number],
-		windowName?: string
+		location: PopupLocation,
+		options?: PopupImageOptions,
 	): this;
 	/**
 	 * Create a list box, which is a list of items for the user to select from.
