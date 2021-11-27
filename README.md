@@ -99,22 +99,21 @@ To see the full history of changes, see the `CHANGELOG.md` file.
 
 ### Legacy Version
 
-Version **1.1.5** included...
+Version **1.2.0** included...
 
--   Added `componentListBox` method to the `Popup` class. This is used to allow the user to select an available option.
--   Added new `showCredentials` function. This asks the user for their username and password of any account (which you can specifiy). _Note: The username and password will be returned, so you will have to validate it._
--   Fixed a few minor bugs and code format.
--   Resolved the issue where icons and images would not show up correctly ([#5](https://github.com/arnavthorat78/Popup-Prompt/issues/5)).
+-   Added an `options` object to some methods in the `Popup` class, and also other methods.
+-   Added an object instead of an array on the `location` and `size` parameters in some components and the window creation.
+-   Added more options for customizing components and window for the `Popup` class.
+-   Fixed a few bugs.
 
 ### Coming Version
 
 _Note: The items below may change at any time._
 
-Version **1.2.0** is set to include...
+Version **1.2.5** is set to include...
 
--   Added an `options` object to some methods in the `Popup` class, and also other methods.
--   Added an object instead of an array on the `location` and `size` parameters in some components and the window creation.
--   Fixed a few bugs.
+-   Multiple listeners for the `Popup` class (e.g. button and text box listener at the same time).
+-   Bug fixes.
 
 ## Usage
 
@@ -134,7 +133,10 @@ console.log(popup.VERSION);
 
 ### Constant: `AVAILABLE_VALUES`
 
-`AVAILABLE_VALUES` shows the available values for the methods, since PowerShell has limited values for specific parameters.
+**Deprecation warning! This variable has been deprecated since _v1.2.0_. It has not been updated since then. Use with caution.**
+
+`AVAILABLE_VALUES` shows the available values for the methods, as sometimes, you can only use specific values.
+
 If you get stuck on what values are available, you can simply `console.log` it, and see an object with each method.
 
 You may be a bit stuck on what `AVAILABLE_VALUES` prints out, so let's do it _now_!
@@ -179,7 +181,7 @@ Just a quick side note on this output: when the value of a parameter (e.g. `show
 ### Method: `showMessageBox`
 
 ```
-showMessageBox(title, message[, type][, picture][, defaultOption])
+showMessageBox(title, message[, options])
 ```
 
 This method shows a customizable message box. It can have a title, message, button/buttons and an image.
@@ -201,9 +203,11 @@ popup
 	.showMessageBox(
 		"Confirm Deleting File",
 		"Are you sure you want to delete the file? This action is irreversible.",
-		"YesNoCancel",
-		"Warning",
-		"No"
+		{
+			type: "YesNoCancel",
+			picture: "Warning",
+			defaultOption: "No"
+		}
 	)
 	.then((btn) => {
 		console.log(btn);
@@ -231,8 +235,15 @@ The first parameter of `showMessageBox` is the title. The title is, as it may su
 
 The second parameter is the description, where you can write a sentence or two, telling the user what the popup is for.
 
-After that, the optional parameters come in. The third parameter are the buttons that display on the bottom. They, however, can only be of the following values. Passing anything other than this will cause an error.
+After that is the `options` parameter. This is used for customizing the message box further! Below are the available values:
 
+-   `type` (_optional_) - The buttons that display on the bottom. They, however, can only be a few values. Passing anything other than this will cause an error.
+-   `picture` (_optional_) - The icon to display. This is a set list of icons, and must only be of a few values.
+-   `defaultOption` (_optional_) - The default value for the button. So, if the user clicks _Enter_ when the popup comes, and the default value is set, then it will automatically go with it. It must be one of the button values.
+
+For the message box options, all of the keys have limited values. Below are the list for each of them.
+
+`type`:
 -   OK
 -   OKCancel
 -   YesNo\*
@@ -240,8 +251,7 @@ After that, the optional parameters come in. The third parameter are the buttons
 
 _\* When this value is set, the **X** (close) button is disabled._
 
-The fourth optional parameter is the icon to display. This is a set list of icons, and must only be of the following values.
-
+`picture`:
 -   Asterisk
 -   Error
 -   Exclamation
@@ -254,13 +264,14 @@ The fourth optional parameter is the icon to display. This is a set list of icon
 
 _\* When `None` is set, there is no icon._
 
-The last parameter is optional, and it is the default value for the button. So, if the user clicks _Enter_ when the popup comes, and the default value is set, then it will automatically go with it. It must be one of the following.
-
+`defaultOption`:
 -   OK
 -   Cancel
 -   Yes
 -   No
--   None
+-   None\*
+
+_\* When `None` is set, there is no default option._
 
 And that's it! This method can be very helpful for displaying information, warning, and error messages to your users, instead of just logging it to the console!
 
