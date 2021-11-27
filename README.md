@@ -243,7 +243,7 @@ After that is the `options` parameter. This is used for customizing the message 
 
 For the message box options, all of the keys have limited values. Below are the list for each of them.
 
-`type`:
+`type`
 -   OK
 -   OKCancel
 -   YesNo\*
@@ -251,7 +251,7 @@ For the message box options, all of the keys have limited values. Below are the 
 
 _\* When this value is set, the **X** (close) button is disabled._
 
-`picture`:
+`picture`
 -   Asterisk
 -   Error
 -   Exclamation
@@ -264,7 +264,7 @@ _\* When this value is set, the **X** (close) button is disabled._
 
 _\* When `None` is set, there is no icon._
 
-`defaultOption`:
+`defaultOption`
 -   OK
 -   Cancel
 -   Yes
@@ -278,7 +278,7 @@ And that's it! This method can be very helpful for displaying information, warni
 ### Method: `showPrompt`
 
 ```
-showPrompt(title, message[, defaultValue])
+showPrompt(title, message[, options])
 ```
 
 The method creates a customizable prompt popup. This includes the title, the message, and the default value for the text field.
@@ -291,7 +291,7 @@ Below is an example of how to use the method.
 
 ```js
 popup
-	.showPrompt("New File", "Type the new file name below.", "text.txt")
+	.showPrompt("New File", "Type the new file name below.", { defaultValue: "text.txt" })
 	.then((fileName) => {
 		console.log(fileName);
 	})
@@ -300,7 +300,7 @@ popup
 	});
 ```
 
-When you run the code, like `showMessageBox`, a PowerShell file will appear in your current working directory, and then, a prompt message similar to this one (depending on your OS, the prompt may look different) will show up.
+When you run the code, a PowerShell file will appear in your current working directory, and then, a prompt message similar to this one (depending on your OS, the prompt may look different) will show up.
 
 ![Show-Prompt-Popup-Two](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Show-Prompt-Popup-Two.png)
 
@@ -316,16 +316,14 @@ The first parameter, like `showMessageBox`, is the title. This is a string that 
 
 After that, the second parameter is the message. This can be a sentence or two, telling the user what the prompt is for.
 
-Finally, the last parameter is optional, and that is the default value. This is the value that should appear by default in the text field. This will be highlighted (like in the picture), so that if the user wants to go with it, they can just press _Enter_.
-
-You may notice that unlike `showMessageBox`, not one of `showPrompt`'s parameters has some set values.
+The final parameter are the options. The only available one is `defaultValue`, which is the value to show by default on the text box.
 
 And that's how easy it is to display a prompt to your user to get some data from them!
 
 ### Method: `showCredentials`
 
 ```
-showCredentials(title, message[, username][, targetName])
+showCredentials(title, message[, options])
 ```
 
 The method creates a credential popup, which asks the user for their credentials. This includes the title, the message, and a default username and/or target name.
@@ -341,8 +339,10 @@ popup
 	.showCredentials(
 		"Popup Prompt Login",
 		"Please enter your credentials to login to Popup Prompt.",
-		"",
-		"popup-prompt"
+		{
+			username: "",
+			targetName: "popup-prompt"
+		}
 	)
 	.then((cred) => {
 		console.log(cred);
@@ -356,7 +356,7 @@ When you run the code, a PowerShell file will appear in your current working dir
 
 ![Show-Credentials-Popup-Four](https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Show-Credentials-Popup-Four.png)
 
-Once the user clicks the _OK_ button, the _Cancel_ button, or the _Close_ button, a text file will appear in your current working directory, and then, in the terminal/command prompt, an object will appear. The data may varie, depending on how the user reacted.
+Once the user clicks the _OK_ button, the _Cancel_ button, or the _Close_ button, a text file will appear in your current working directory, and then, in the terminal/command prompt, an object will appear. The data may vary, depending on how the user reacted.
 
 ```
 { username: 'popup-prompt\\popup', password: 'password', error: null }
@@ -368,9 +368,10 @@ The first parameter is the title to display on the top of the popup.
 
 The second parameter is the message to display to the user, telling them what the credential prompt is for.
 
-The third parameter is the default username to show in the username field.
+After that is the `options` parameter. This is used for customizing the message box further! Below are the available values:
 
-The fourth parameter is the name that will show behind the username. This shows the target of the user.
+-   `username` (_optional_) - The default username to show in the username field.
+-   `targetName` (_optional_) - The name that will show behind the username. This shows the target of the user.
 
 And that's how easy it is to display a credential popup to your user!
 
@@ -397,7 +398,7 @@ _Note: In this example, we are creating a server reboot information dialog, so t
 Then, you can create the window for all the data. This will include the icon as well.
 
 ```js
-info.createWindow("Server Reboot", [275, 175], true, "./favicon.ico");
+info.createWindow("Server Reboot", [275, 175], { maximize: true, iconPath: "./favicon.ico" });
 ```
 
 _Note: The icon is a server-like image._
@@ -408,22 +409,25 @@ After that, we can add some components. In this example, we will only add a labe
 info.componentLabel(
 	"information",
 	"The server rebooted at 2:14 PM on 16/10/2021.",
-	[10, 20],
-	[280, 20]
+	{ x: 10, y: 20 },
+	{ w: 280, h: 20 }
 );
-info.componentButton("button", "OK", [85, 75], [75, 25], "OK", true);
+info.componentButton(
+	"button",
+	"OK",
+	{ x: 85, y: 75 },
+	{ w: 75, h: 25 },
+	"OK",
+	{ listen: true }
+);
 ```
 
 Then, finally, we can render the window, and display the popup.
 
 ```js
-info.renderWindow(true);
+info.renderWindow({ topmost: true });
 info.openPopup((data, err) => {
-	if (err) {
-		console.log(err);
-	} else {
-		console.log(data);
-	}
+	console.log(err ? err : data);
 });
 ```
 
@@ -432,23 +436,26 @@ The total code is below.
 ```js
 const info = new popup.Popup();
 
-info.createWindow("Server Reboot", [275, 175], true, "./favicon.ico");
+info.createWindow("Server Reboot", [275, 175], { maximize: true, iconPath: "./favicon.ico" });
 
 info.componentLabel(
 	"information",
 	"The server rebooted at 2:14 PM on 16/10/2021.",
-	[10, 20],
-	[280, 20]
+	{ x: 10, y: 20 },
+	{ w: 280, h: 20 }
 );
-info.componentButton("button", "OK", [85, 75], [75, 25], "OK", true);
+info.componentButton(
+	"button",
+	"OK",
+	{ x: 85, y: 75 },
+	{ w: 75, h: 25 },
+	"OK",
+	{ listen: true }
+);
 
-info.renderWindow(true);
+info.renderWindow({ topmost: true });
 info.openPopup((data, err) => {
-	if (err) {
-		console.log(err);
-	} else {
-		console.log(data);
-	}
+	console.log(err ? err : data);
 });
 ```
 
@@ -467,21 +474,24 @@ There is an even easier way to type the code, which gives us the same result. We
 ```js
 const info = new popup.Popup(); // We are not chaining from here, but you can if you want.
 
-info.createWindow("Server Reboot", [275, 175], true, "./favicon.ico")
+info.createWindow("Server Reboot", [275, 175], { maximize: true, iconPath: "./favicon.ico" })
 	.componentLabel(
 		"information",
 		"The server rebooted at 2:14 PM on 16/10/2021.",
-		[10, 20],
-		[280, 20]
+		{ x: 10, y: 20 },
+		{ w: 280, h: 20 }
 	)
-	.componentButton("button", "OK", [85, 75], [75, 25], "OK", true)
-	.renderWindow(true)
+	.componentButton(
+		"button",
+		"OK",
+		{ x: 85, y: 75 },
+		{ w: 75, h: 25 },
+		"OK",
+		{ listen: true }
+	)
+	.renderWindow({ topmost: true })
 	.openPopup((data, err) => {
-		if (err) {
-			console.log(err);
-		} else {
-			console.log(data);
-		}
+		console.log(err ? err : data);
 	});
 ```
 
