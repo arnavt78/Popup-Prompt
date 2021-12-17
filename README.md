@@ -5,6 +5,7 @@
 ![NPM](https://img.shields.io/npm/l/popup-prompt?color=green&label=license&logo=licenseName&logoColor=grey)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Farnavthorat78%2FPopup-Prompt.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Farnavthorat78%2FPopup-Prompt?ref=badge_shield)
 ![npm type definitions](https://img.shields.io/npm/types/popup-prompt?color=blue&label=types&logo=typeDefinitions&logoColor=grey)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Farnavthorat78%2FPopup-Prompt.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Farnavthorat78%2FPopup-Prompt?ref=badge_shield)
 
 <img src="https://raw.githubusercontent.com/arnavthorat78/Popup-Prompt/main/img/Popup-Prompt%20Logo.png" alt="Popup-Prompt Logo" width="200" height="200" />
 
@@ -883,3 +884,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Farnavthorat78%2FPopup-Prompt.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Farnavthorat78%2FPopup-Prompt?ref=badge_large)
